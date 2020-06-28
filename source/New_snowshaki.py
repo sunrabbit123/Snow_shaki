@@ -215,7 +215,7 @@ class ShakiBot(discord.Client):
     @bad_shaki
     async def command_급식(self,message):
         keyword = message.content.split()[-1]
-        today_meal = SearchWord().get_meal(keyword = "[내일]" if keyword == "[내일]" else "[오늘]" )
+        today_meal = SearchWord().get_meal(keyword = "내일" if keyword == "내일" else "[오늘]" )
 
         
         
@@ -234,7 +234,7 @@ class ShakiBot(discord.Client):
             
         
         
-        emb = discord.Embed(title = "**%s의 급식 **" % ("[내일]" if keyword == "[내일]" else "[오늘]"), colour = self.color)
+        emb = discord.Embed(title = "**%s의 급식 **" % ("[내일]" if keyword == "내일" else "[오늘]"), colour = self.color)
        
         emb.add_field(name = "[조식]", value = today_morning,inline = False)
         emb.add_field(name = "[중식]", value = today_afternoon, inline = False)
