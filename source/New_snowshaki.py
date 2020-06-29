@@ -173,7 +173,7 @@ class ShakiBot(discord.Client):
     async def command_배워(self,message) :#샤키야 key커맨드 value커맨드
         word = message.content.split(" ")
         with open('snow_shaki_bot.txt', 'a', encoding= 'utf-8') as ff:
-            ff.write('%s:;%s\n' % (word[2]," ".join(word[3:])))
+            ff.write('%s:;%s\n' % (word[2]," ".join(word[3:-1])))
         
         await message.channel.send("야랄 왜 나한테...")
 
