@@ -171,9 +171,9 @@ class ShakiBot(discord.Client):
         
 
     async def command_배워(self,message) :#샤키야 key커맨드 value커맨드
-        word = message.content.split(" ")
+        word = message.content[7:].split(":")
         with open('snow_shaki_bot.txt', 'a', encoding= 'utf-8') as ff:
-            ff.write('%s:;%s\n' % (word[2]," ".join(word[3:-1])))
+            ff.write('%s:;%s\n' % (word[0], word[1]))
         
         await message.channel.send("야랄 왜 나한테...")
 
@@ -224,13 +224,13 @@ class ShakiBot(discord.Client):
         if "[석식]" in today_meal:
             afternoon = today_meal.index("[석식]")
         
-        today_morning = '\n'.join(today_meal[1:morning])
+        today_morning = '-\n'.join(today_meal[1:morning])
         if "[석식]" in today_meal:
-            today_afternoon = '\n'.join(today_meal[morning +1 :afternoon])
-            today_dinner = '\n'.join(today_meal[afternoon +1 :])
+            today_afternoon = '-\n'.join(today_meal[morning +1 :afternoon])
+            today_dinner = '-\n'.join(today_meal[afternoon +1 :])
 
         else:
-            today_afternoon = '\n'.join(today_meal[morning+1:])
+            today_afternoon = '-\n'.join(today_meal[morning+1:])
             
         
         
