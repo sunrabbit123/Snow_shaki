@@ -35,8 +35,8 @@ class SearchWord:
 
         try :
             info = soup.find_all("img")
-            # index = random.randint(1, len(info))
-            return info[1]["src"]
+            index = random.randint(1, len(info))
+            return info[index]["src"]
         except:
             return None
     def get_meal(self, keyword = "오늘" ):
