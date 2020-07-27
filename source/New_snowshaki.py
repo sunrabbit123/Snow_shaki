@@ -52,17 +52,15 @@ class ShakiBot(discord.Client):
         super().__init__()
 
     async def on_ready(self):
-        activity = discord.Activity(name='샤키야라고 해보지 않으련?', type=discord.ActivityType.playing)
+        activity = discord.Activity(name='"샤키야 도움말" 이라고 해보지 않으련?', type=discord.ActivityType.playing)
         await self.change_presence(activity=activity)
         print("야생의 샤키가 나타났다!")
 
+   
     @print_time
     async def on_message(self, message):
         await self.wait_until_ready()
-        if message.content == "야생의 샤키가 나타났다!":
-            await message.channel.send("야생의 샤키가 나타났다!\n야생의 샤키가 나타났다!\n\n야생의 샤키가 나타났다!\n\n\n야생의 샤키가 나타났다!")
         if not message.author.bot:
-            
             command = message.content.lower().split()
             try:    
                 prefixed = 1 if (command[0] in self.prefix) else  0
@@ -212,35 +210,35 @@ class ShakiBot(discord.Client):
             await message.channel.send("뒤져")
         else:
             pass
-    @bad_shaki
-    async def command_급식(self,message):
-        keyword = message.content.split()[-1]
-        today_meal = SearchWord().get_meal(keyword = "내일" if keyword == "내일" else "[오늘]" )
+    # @bad_shaki
+    # async def command_급식(self,message):
+    #     keyword = message.content.split()[-1]
+    #     today_meal = SearchWord().get_meal(keyword = "내일" if keyword == "내일" else "[오늘]" )
 
         
         
         
-        morning = today_meal.index("[중식]")
-        if "[석식]" in today_meal:
-            afternoon = today_meal.index("[석식]")
+    #     morning = today_meal.index("[중식]")
+    #     if "[석식]" in today_meal:
+    #         afternoon = today_meal.index("[석식]")
         
-        today_morning = '-\n'.join(today_meal[1:morning])
-        if "[석식]" in today_meal:
-            today_afternoon = '-\n'.join(today_meal[morning +1 :afternoon])
-            today_dinner = '-\n'.join(today_meal[afternoon +1 :])
+    #     today_morning = '-\n'.join(today_meal[1:morning])
+    #     if "[석식]" in today_meal:
+    #         today_afternoon = '-\n'.join(today_meal[morning +1 :afternoon])
+    #         today_dinner = '-\n'.join(today_meal[afternoon +1 :])
 
-        else:
-            today_afternoon = '-\n'.join(today_meal[morning+1:])
+    #     else:
+    #         today_afternoon = '-\n'.join(today_meal[morning+1:])
             
         
         
-        emb = discord.Embed(title = "**%s의 급식 **" % ("[내일]" if keyword == "내일" else "[오늘]"), colour = self.color)
+    #     emb = discord.Embed(title = "**%s의 급식 **" % ("[내일]" if keyword == "내일" else "[오늘]"), colour = self.color)
        
-        emb.add_field(name = "[조식]", value = today_morning,inline = False)
-        emb.add_field(name = "[중식]", value = today_afternoon, inline = False)
-        if "[석식]" in today_meal:
-            emb.add_field(name = "[석식]", value = today_dinner, inline = False)
+    #     emb.add_field(name = "[조식]", value = today_morning,inline = False)
+    #     emb.add_field(name = "[중식]", value = today_afternoon, inline = False)
+    #     if "[석식]" in today_meal:
+    #         emb.add_field(name = "[석식]", value = today_dinner, inline = False)
 
-        await message.channel.send(embed = emb)
+    #     await message.channel.send(embed = emb)
 
 

@@ -39,17 +39,17 @@ class SearchWord:
             return info[index]["src"]
         except:
             return None
-    def get_meal(self, keyword = "오늘" ):
-        days = datetime.datetime.now()
-        if keyword == "내일":
-            days += datetime.timedelta(1)
+    # def get_meal(self, keyword = "오늘" ):
+    #     days = datetime.datetime.now()
+    #     if keyword == "내일":
+    #         days += datetime.timedelta(1)
 
-        meal_code = neis_code.get_code('광주소프트웨어마이스터고등학교')
-        return meal.get_meal(meal_code['광주소프트웨어마이스터고등학교']['코드'],\
-            meal_code['광주소프트웨어마이스터고등학교']['교육청'],\
-            meal_code['광주소프트웨어마이스터고등학교']['종류'],\
-            date = days
-        )
+    #     meal_code = neis_code.get_code('광주소프트웨어마이스터고등학교')
+    #     return meal.get_meal(meal_code['광주소프트웨어마이스터고등학교']['코드'],\
+    #         meal_code['광주소프트웨어마이스터고등학교']['교육청'],\
+    #         meal_code['광주소프트웨어마이스터고등학교']['종류'],\
+    #         date = days
+    #     )
 
 
 if __name__ == "__main__":
