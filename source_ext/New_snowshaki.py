@@ -126,8 +126,8 @@ class ShakiBot(commands.Bot):
         
 
     async def command_custom(self,message,prefixed = True):
-        await command_manger(message,prefixed)
-        
+        command_manger(message,prefixed)
+        return None
 
 
     async def command_custom_send(self,message,prefixed = False):
@@ -201,7 +201,7 @@ class ShakiBot(commands.Bot):
             em2 = discord.Embed(title = "%s의 네이버사전검색 결과" % findn,description = "%s" %findit,colour = self.color)
             await message.channel.send(embed = em2)
     
-    async def command_굴러(self,message):
+    async def command_굴러(self, message):
         await message.channel.send(random.choice(["데구르르 꽝","꽝 데구르르","데구르르 뎅강","ㄷㄱㄹㄹ ㄷㄱ","야랄,,, 너나 구르세요"]))
     
     async def command_Hello(self,message):
@@ -209,6 +209,9 @@ class ShakiBot(commands.Bot):
             await message.channel.send("뒤져")
         else:
             pass
+    
+    async def command_assemble(self, message):
+        
     # @bad_shaki
     # async def command_급식(self,message):
     #     keyword = message.content.split()[-1]

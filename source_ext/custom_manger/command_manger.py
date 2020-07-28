@@ -63,3 +63,4 @@ class command_manger():
 
         self.dbmanger.insert_row(made)
         await message.channel.send("야랄,,, 근데 왜 나한테 이런걸ㄹ,,")
+        return None
