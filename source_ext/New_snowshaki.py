@@ -70,7 +70,7 @@ class ShakiBot(commands.Bot):
             func = getattr(self, "command_%s"%command_find(command, prefixed=prefixed),None)
 
             try:
-                print("%s : %s : %s" % (message.author,message.channel.name,message.content ))
+                print("%s : %s : %s : %s" % (message.author, message.guild, message.channel.name, message.content ))
             except UnicodeEncodeError:
                 pass#유니코드 에러는 스킵
             if func:
@@ -126,8 +126,9 @@ class ShakiBot(commands.Bot):
         
 
     async def command_custom(self,message,prefixed = True):
+        print("함수입장")
         command_manger(message,prefixed)
-        return None
+        
 
 
     async def command_custom_send(self,message,prefixed = False):
@@ -210,8 +211,7 @@ class ShakiBot(commands.Bot):
         else:
             pass
     
-    async def command_assemble(self, message):
-        
+    
     # @bad_shaki
     # async def command_급식(self,message):
     #     keyword = message.content.split()[-1]

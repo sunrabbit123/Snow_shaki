@@ -4,11 +4,15 @@ import random
 from db_manger import dbmanger
 from models import made_command 
 class command_manger():
-    def __init__(self,message,prefixed = True):
-        self.features = {'추가' : '_add' , '삭제' : '_delete' , '목록' : '_list'}    
+    def __init__(self, message, prefixed = True):
+        self.features = {'추가' : '_add' , '삭제' : '_delete' , '목록' : '_list'} 
+        command_triger = message.content.split()[2]
+        print('command_custom' + self.features[command_triger])
         self.dbmanger = dbmanger()
         try :
-            getattr(self,'command_custom' + self.features[message.content.split()[2]])(message,prefixed = True)
+            func = getattr(self,'command_custom%s' % self.features[command_triger], None)
+            if func:
+                func(message)
         except(IndexError,KeyError):
             message.channel.send("제대로 입력해주세요")
 
@@ -51,16 +55,16 @@ class command_manger():
         await message.channel.send(title + "\n```" + description + "\n```")
         
 
-    async def command_custom_add(self,message,prefixed = True):
+    async def command_custom_add(self, message):
         contents = message.content.split()
         server = message.guild
         server_id = message.guild.id
         author = message.author
-        make_command = contents[2]
-        make_output = contents[3:]
-
+        make_command = contents[3]
+        make_output = contents[4:]
+        print("DB진입 전")
         made = made_command(server,server_id,author,make_command,make_output)
 
         self.dbmanger.insert_row(made)
         await message.channel.send("야랄,,, 근데 왜 나한테 이런걸ㄹ,,")
-        return None
+        
