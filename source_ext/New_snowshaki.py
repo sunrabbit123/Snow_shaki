@@ -1,10 +1,9 @@
-from openpyxl import load_workbook
 import discord
+from discord.ext import commands
 import asyncio
 import random
 import time
 import datetime
-
 import operator
 import os
 import re
@@ -14,7 +13,7 @@ from datetime import datetime
 from const import Docs,Strings
 from web_find import SearchWord
 from custom_manger import command_manger
-#from db_manger import  dbmanger
+from db_manger import  dbmanger
 from const import study_pathfind
 
 
@@ -39,20 +38,20 @@ def bad_shaki(func):
     return wrapper
 
 
-class ShakiBot(discord.Client):
+class ShakiBot(commands.Bot):
     def __init__(self,*,debug = False):
         self.debug = debug
-        #self.dbmanger = dbmanger()
+        self.dbmanger = dbmanger()
         self.color = 0x7ACDF4
         self.prefix =["샤키야","참수진","수진아","Shaki","shaki"]
         self.prefixed = 0
         
 
 
-        super().__init__()
+        super().__init__(command_prefix="", help_command=None)
 
     async def on_ready(self):
-        activity = discord.Activity(name='"샤키야 도움말" 이라고 해보지 않으련?', type=discord.ActivityType.playing)
+        activity = discord.Game(name='"샤키야 도움말" 이라고 해보지 않으련?')
         await self.change_presence(activity=activity)
         print("야생의 샤키가 나타났다!")
 
@@ -126,22 +125,22 @@ class ShakiBot(discord.Client):
         
         
 
-    # async def command_custom(self,message,prefixed = True):
-    #     await command_manger(message,prefixed)
+    async def command_custom(self,message,prefixed = True):
+        await command_manger(message,prefixed)
         
 
 
-    # async def command_custom_send(self,message,prefixed = False):
-    #     contents = message.content.split()
-    #     search_msg = self.dbmanger.search_data('made_command','keycommand',contents[0])
+    async def command_custom_send(self,message,prefixed = False):
+        contents = message.content.split()
+        search_msg = self.dbmanger.search_data('made_command','keycommand',contents[0])
         
-    #     try:
-    #         server = str(message.guild.id)
-    #         server_command = [cmd for cmd in search_msg if cmd.server_id == server]
-    #         searched_msg = random.choice(server_command)
-    #         await message.chnnel.send(searched_msg.output) 
-    #     except (IndexError, ValueError):
-    #         return
+        try:
+            server = str(message.guild.id)
+            server_command = [cmd for cmd in search_msg if cmd.server_id == server]
+            searched_msg = random.choice(server_command)
+            await message.chnnel.send(searched_msg.output) 
+        except (IndexError, ValueError):
+            return
     
     
         
