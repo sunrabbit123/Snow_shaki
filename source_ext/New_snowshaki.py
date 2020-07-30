@@ -49,8 +49,8 @@ class ShakiBot(commands.Bot):
         if not message.author.bot and message.content:
             func = self.find_func.func_get(message)
 
-            if func is None:
-                
+            # if func is None:
+
                 
 
 
