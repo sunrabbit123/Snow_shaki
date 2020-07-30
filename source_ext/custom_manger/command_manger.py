@@ -4,19 +4,11 @@ import random
 from db_manger import dbmanger
 from models import made_command 
 class command_manger():
-    def __init__(self, message, prefixed = True):
-        self.features = {'추가' : '_add' , '삭제' : '_delete' , '목록' : '_list'} 
-        command_triger = message.content.split()[2]
-        print('command_custom' + self.features[command_triger])
+    
+    def __init__(self):
         self.dbmanger = dbmanger()
-        try :
-            func = getattr(self,'command_custom%s' % self.features[command_triger], None)
-            if func:
-                func(message)
-        except(IndexError,KeyError):
-            message.channel.send("제대로 입력해주세요")
 
-    async def command_custom_delete(self,message,prefixed = True):
+    def command_custom_delete(self,message,prefixed = True):
         contents = message.content.split()[3]
         try:
             searching = self.dbmanger.search_data('made_command','keycommand',contents)
@@ -30,11 +22,10 @@ class command_manger():
             if command_server:
                 for i in command_server:
                     self.dbmanger.delete_data(i)
-                await message.content.channel.send("먀아,,,?\n그게 뭐야ㅏ,,")
-    
-    async def command_custom_list(self,message,prefixed = True):
-        await message.channel.trigger_typing()
+                message.content.channel.send("먀아,,,?\n그게 뭐야ㅏ,,")
+        return None
 
+    def command_custom_list(self,message,prefixed = True):
         server = str(message.guild.id)
         searched = self.dbmanger.search_data(made_command,"server_id",server)
         if not searched:
@@ -52,10 +43,10 @@ class command_manger():
         description = "\n".join(["``%s``" % command for command in diction_command])
 
         
-        await message.channel.send(title + "\n```" + description + "\n```")
-        
+        message.channel.send(title + "\n```" + description + "\n```")
+        return None
 
-    async def command_custom_add(self, message):
+    def command_custom_add(self, message):
         contents = message.content.split()
         server = message.guild
         server_id = message.guild.id
@@ -66,5 +57,9 @@ class command_manger():
         made = made_command(server,server_id,author,make_command,make_output)
 
         self.dbmanger.insert_row(made)
-        await message.channel.send("야랄,,, 근데 왜 나한테 이런걸ㄹ,,")
+        message.channel.send("야랄,,, 근데 왜 나한테 이런걸ㄹ,,")
+        return None
+    
+    # def command_custom_respond(self, message):
+        
         
