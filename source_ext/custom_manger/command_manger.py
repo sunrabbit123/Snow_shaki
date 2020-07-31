@@ -4,7 +4,6 @@ import random
 from db_manger import dbmanger
 from models import made_command 
 class command_manger():
-    
     def __init__(self):
         self.dbmanger = dbmanger()
 
@@ -22,7 +21,7 @@ class command_manger():
             if command_server:
                 for i in command_server:
                     self.dbmanger.delete_data(i)
-                message.content.channel.send("먀아,,,?\n그게 뭐야ㅏ,,")
+                await message.content.channel.send("먀아,,,?\n그게 뭐야ㅏ,,")
         return None
 
     def command_custom_list(self,message,prefixed = True):
@@ -43,8 +42,8 @@ class command_manger():
         description = "\n".join(["``%s``" % command for command in diction_command])
 
         
-        message.channel.send(title + "\n```" + description + "\n```")
-        return None
+        await message.channel.send(title + "\n```" + description + "\n```")
+        
 
     def command_custom_add(self, message):
         contents = message.content.split()
@@ -57,8 +56,7 @@ class command_manger():
         made = made_command(server,server_id,author,make_command,make_output)
 
         self.dbmanger.insert_row(made)
-        message.channel.send("야랄,,, 근데 왜 나한테 이런걸ㄹ,,")
-        return None
+        await message.channel.send("야랄,,, 근데 왜 나한테 이런걸ㄹ,,")
     
     # def command_custom_respond(self, message):
         

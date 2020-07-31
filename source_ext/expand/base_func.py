@@ -32,21 +32,13 @@ class base_func:
     #     outputs = study_pathfind().find_study(messages)
     #     await message.channel.send("https://" +outputs)
     #     print(outputs)
-
-        
-
-
-    async def command_custom_send(self,message,prefixed = False):
-        contents = message.content.split()
-        search_msg = self.dbmanger.search_data('made_command','keycommand',contents[0])
-        
         
     
     
         
     
     def command_잊어(self,message):#샤키야 key커맨드
-        forget_word = message.content[6:]
+        forget_word = message.content[3:]
         with open('snow_shaki_bot.txt','w', encoding='utf-8') as save_word:
             with open('snow_shaki_bot.txt','r', encoding='utf-8') as read_word:
                 lines = read_word.readlines()
