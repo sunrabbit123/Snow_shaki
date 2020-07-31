@@ -40,13 +40,7 @@ class base_func:
         contents = message.content.split()
         search_msg = self.dbmanger.search_data('made_command','keycommand',contents[0])
         
-        try:
-            server = str(message.guild.id)
-            server_command = [cmd for cmd in search_msg if cmd.server_id == server]
-            searched_msg = random.choice(server_command)
-            await message.chnnel.send(searched_msg.output) 
-        except (IndexError, ValueError):
-            return
+        
     
     
         

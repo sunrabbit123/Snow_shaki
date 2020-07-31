@@ -12,7 +12,7 @@ from functools import partial
 from datetime import datetime
 
 from expand import call_func
-
+from db_manger import dbmanger
 
 
 
@@ -35,6 +35,7 @@ class ShakiBot(commands.Bot):
     def __init__(self, *, debug = False):
         self.debug = debug
         self.find_func = call_func()
+        self.database = dbmanger()
         super().__init__(command_prefix="", help_command=None)
 
     async def on_ready(self):
@@ -49,8 +50,16 @@ class ShakiBot(commands.Bot):
         if not message.author.bot and message.content:
             func = self.find_func.func_get(message)
 
-            # if func is None:
-
+            if func is None:
+                searched_data = self.database.search_data('made_command', 'keycommand', message.content)
+                print(searched_data)
+                try:
+                    server = str(message.guild.id)
+                    server_command = [cmd for cmd in search_msg if cmd.server_id == server]
+                    searched_msg = random.choice(server_command)
+                    await message.chnnel.send(searched_msg.output) 
+                except (IndexError, ValueError):
+                    return
                 
 
 
