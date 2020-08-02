@@ -4,7 +4,7 @@ from custom_manger import command_manger
 import discord
 
 def command_find(message,prefixed = True):
-    diction = getattr(Strings,'command_prefixes' if prefixed else 'commands')
+    diction = getattr(Strings,'command_prefixes' if prefixed else 'command_not_prefixes')
     for command, string in diction.items():
         if message in string:
             return command

@@ -7,7 +7,7 @@ class command_manger():
     def __init__(self):
         self.dbmanger = dbmanger()
 
-    def command_custom_delete(self,message,prefixed = True):
+    async def command_custom_delete(self,message,prefixed = True):
         contents = message.content.split()[3]
         try:
             searching = self.dbmanger.search_data('made_command','keycommand',contents)
@@ -24,7 +24,7 @@ class command_manger():
                 await message.content.channel.send("먀아,,,?\n그게 뭐야ㅏ,,")
         return None
 
-    def command_custom_list(self,message,prefixed = True):
+    async def command_custom_list(self,message,prefixed = True):
         server = str(message.guild.id)
         searched = self.dbmanger.search_data(made_command,"server_id",server)
         if not searched:
@@ -45,7 +45,7 @@ class command_manger():
         await message.channel.send(title + "\n```" + description + "\n```")
         
 
-    def command_custom_add(self, message):
+    async def command_custom_add(self, message):
         contents = message.content.split()
         server = message.guild
         server_id = message.guild.id
