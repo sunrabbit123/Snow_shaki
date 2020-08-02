@@ -50,7 +50,8 @@ class ShakiBot(commands.Bot):
         if not message.author.bot and message.content:
             func = self.find_func.func_get(message)
 
-            if func is None:
+            if func is None:#본래 함수에 없다면 사용자지정함수를 확인한다.
+                print("if")
                 searched_data = self.database.search_data('made_command', 'keycommand', message.content)
                 print(searched_data)
                 try:
@@ -61,6 +62,7 @@ class ShakiBot(commands.Bot):
                 except (IndexError, ValueError):
                     return
             else:
+                print("else")
                 func(message)
                 
 
