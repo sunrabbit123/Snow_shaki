@@ -16,18 +16,25 @@ class call_func:
 
     def func_find(self, message: discord.message, prefixed = True):
         command = message.content.split()[prefixed]
-        command = command_find(f"command_{command}",prefixed=prefixed)
+        print(f"{command}\n{prefixed}")
+        command = command_find(f"command_{command}", prefixed=prefixed)
         func = getattr(self.Expand_func, f"command_{command}")
         return func
 
     def func_get(self, message : discord.Message):
-        contents = message.content.split()
-        if self.Prefix_list in contents:
-            contents = contents[1]
-            return self.func_find(message)
-        else:
-            contents = contents[0]
-            return self.func_find(message, prefixed = False)
+        contents = message.content.split(" ")
+        print(contents)
+        try:
+            if contents[0] in self.Prefix_list:
+                print("if")
+                contents = contents[1]
+                return self.func_find(message)
+            else:
+                print("else")
+                contents = contents[0]
+                return self.func_find(message, prefixed = False)
+        except:
+            return
 
         
         
