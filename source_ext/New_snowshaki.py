@@ -60,6 +60,8 @@ class ShakiBot(commands.Bot):
                     await message.chnnel.send(searched_msg.output) 
                 except (IndexError, ValueError):
                     return
+            else:
+                func(message)
                 
 
 
