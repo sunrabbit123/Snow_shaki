@@ -18,7 +18,7 @@ from db_manger import dbmanger
 
 
 def print_time(func):
-    async def wrapper(self, message):
+    async def wrapper(self, message : discord.message):
         print(datetime.now(), end = ' ')
         return await func(self, message)
     return wrapper
@@ -44,8 +44,8 @@ class ShakiBot(commands.Bot):
         print("야생의 샤키가 나타났다!")
 
    
-    @print_time
-    async def on_message(self, message):
+    #@print_time
+    async def on_message(self, message : discord.message):
         await self.wait_until_ready()
         if not message.author.bot and message.content:
             func = self.find_func.func_get(message)
@@ -54,6 +54,8 @@ class ShakiBot(commands.Bot):
                 print("if")
                 searched_data = self.database.search_data('made_command', 'keycommand', message.content)
                 print(searched_data)
+                if searched_data == None:
+                    return
                 try:
                     server = str(message.guild.id)
                     server_command = [cmd for cmd in searched_data if cmd.server_id == server]
@@ -63,7 +65,7 @@ class ShakiBot(commands.Bot):
                     return
             else:
                 print("else")
-                func(message)
+                await func(bot = self, message = message)
                 
 
 

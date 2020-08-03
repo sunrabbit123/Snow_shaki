@@ -1,4 +1,6 @@
 import discord
+from discord.ext import commands
+
 import random
 
 from custom_manger import command_manger
@@ -18,11 +20,11 @@ class base_func:
         self.color = 0x7ACDF4
         self.dbmanger = dbmanger()
 
-    async def command_help(self, message):
+    async def command_help(self, bot, message):
         emb = discord.Embed(title='깔롤랭은 국룰입니다',description=Docs.help,colour=self.color)
         await message.channel.send(embed = emb)
 
-    async def command_choice(self, message):
+    async def command_choice(self, bot, message):
         chlist = message.content.split()
         chlist = chlist[2:]
         await message.channel.send("내가 뽑은건...!\n%s입니당!"%random.choice(chlist))
@@ -37,7 +39,7 @@ class base_func:
     
         
     
-    async def command_잊어(self, message):#샤키야 key커맨드
+    async def command_잊어(self, bot, message):#샤키야 key커맨드
         forget_word = message.content[3:]
         with open('snow_shaki_bot.txt','w', encoding='utf-8') as save_word:
             with open('snow_shaki_bot.txt','r', encoding='utf-8') as read_word:
@@ -59,7 +61,7 @@ class base_func:
 
         
 
-    async def command_배워(self, message) :#샤키야 key커맨드 value커맨드
+    async def command_배워(self, bot, message) :#샤키야 key커맨드 value커맨드
         word = message.content[7:].split(":")
         with open('snow_shaki_bot.txt', 'a', encoding= 'utf-8') as ff:
             ff.write('%s:;%s\n' % (word[0], word[1]))
@@ -67,7 +69,7 @@ class base_func:
         await message.channel.send("야랄 왜 나한테...")
 
     
-    async def command_사진(self, message):
+    async def command_사진(self, bot, message):
         findg = message.content[9:]
         await message.channel.trigger_typing()
         image = SearchWord().get_image(findg)
@@ -82,7 +84,7 @@ class base_func:
         
         
             
-    async def command_사전(self, message):
+    async def command_사전(self, bot, message):
         findn = message.content[9:]
         findit = SearchWord().get_dic(findn)
 
@@ -92,11 +94,11 @@ class base_func:
         else:
             em2 = discord.Embed(title = "%s의 네이버사전검색 결과" % findn,description = "%s" %findit,colour = self.color)
             await message.channel.send(embed = em2)
-    
-    async def command_굴러(self, message):
+    @staticmethod
+    async def command_굴러(self, bot = None, message: discord.message =  None ):
         await message.channel.send(random.choice(["데구르르 꽝","꽝 데구르르","데구르르 뎅강","ㄷㄱㄹㄹ ㄷㄱ","야랄,,, 너나 구르세요"]))
     
-    async def command_Hello(self,message):
+    async def command_Hello(self, bot, message):
         if message.content.split()[0] == "참수진":
             await message.channel.send("뒤져")
         else:
