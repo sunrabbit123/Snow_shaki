@@ -8,11 +8,13 @@ import datetime
 import operator
 import os
 import re
-from functools import partial
+from functools import partial 
 from datetime import datetime
 
 from expand import call_func
+import base_func
 from db_manger import dbmanger
+
 
 
 
@@ -34,8 +36,7 @@ def bad_shaki(func):
 class ShakiBot(commands.Bot):
     def __init__(self, *, debug = False):
         self.debug = debug
-        self.find_func = call_func()
-        self.database = dbmanger()
+
         super().__init__(command_prefix="", help_command=None)
 
     async def on_ready(self):
@@ -48,11 +49,12 @@ class ShakiBot(commands.Bot):
     async def on_message(self, message : discord.message):
         await self.wait_until_ready()
         if not message.author.bot and message.content:
-            func = self.find_func.func_get(message)
+            command_keyword = call_func().func_find(message)
+            base_func.command_굴러(self, message)
 
-            if func is None:#본래 함수에 없다면 사용자지정함수를 확인한다.
-                print("if")
-                searched_data = self.database.search_data('made_command', 'keycommand', message.content)
+            if command_keyword is None:#본래 함수에 없다면 사용자지정함수를 확인한다.
+                
+                searched_data = dbmanger().search_data('made_command', 'keycommand', message.content)
                 print(searched_data)
                 if searched_data == None:
                     return
@@ -64,8 +66,9 @@ class ShakiBot(commands.Bot):
                 except (IndexError, ValueError):
                     return
             else:
-                print("else")
-                await func(bot = self, message = message)
+                func = "base_func." + command_keyword + "(self, message)"
+                print(func)
+                await exec(func)
                 
 
 
