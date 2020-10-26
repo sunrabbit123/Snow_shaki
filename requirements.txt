@@ -31,9 +31,3 @@ toml==0.10.1
 ujson==3.2.0
 uncompyle6==3.7.3
 urllib3==1.25.9
-websockets==8.1
-Werkzeug==1.0.1
-wrapt==1.12.1
-xdis==5.0.3
-yarl==1.4.2
-youtube-dl==2020.6.6
