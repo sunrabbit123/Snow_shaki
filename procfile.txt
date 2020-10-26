@@ -1,1 +1,0 @@
-woker: python runsnow.py
