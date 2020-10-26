@@ -99,6 +99,8 @@ class basic_command:
                 em.add_field(name = meal_type, value = meal, inline = True)  
         except KeyError:
             em.add_field(name = "오류", value = "급식이 없습니다.")
+        except IndexError:
+            print("저녁까지밖에 없음")
         await message.channel.send(embed = em)
         
         # try : 

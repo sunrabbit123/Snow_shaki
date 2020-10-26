@@ -4,8 +4,10 @@ import re
 from const import Strings
 def pattern_Comparison(pattern, text) -> bool:
     comparison = re.search(pattern, text)
-    # print(comparison)
+    
     if comparison:
+        print(pattern)
+        print(comparison)
         return True
     else:
         return False
@@ -71,7 +73,7 @@ class get_date:
                         "그믐" : "30"}
         self.date = datetime.datetime.now()
 
-        if pattern_Comparison(re.compile('[\b일 뒤\b|\b월 뒤\b|\b달 뒤\b|\b주 뒤\b]'), text) and\
+        if pattern_Comparison(re.compile(r'\b일 뒤\b|\b월 뒤\b|\b달 뒤\b|\b주 뒤\b'), text) and\
             pattern_Comparison(re.compile('[0-9]'), text):
             print("일월달주")
             YMWD = 'M' if pattern_Comparison(re.compile('[월|달]'), text) else\
@@ -89,20 +91,24 @@ class get_date:
         
         is_DMY = re.sub('[^주|달|해|년]', "", text)
         is_Days_Dict = re.sub(r'[^\b열흘\b|\b스무날\b|\b보름\b|\b그믐\b]', "", text)
-
+        print(is_Days_Dict)
         if is_DMY:
             print("DMY")
             length = re.sub('[^다|저|지]', "", text)
             self.date = set_date(text, Date_Dict[is_DMY[0]], self.date, len(length))
 
         elif is_Days_Dict:
-            self.date = set_date(text, 'D', self.date, Days_Dict[is_Days_Dict[0]])
-            print("Days_Dict")
+            try:
+                self.date = set_date(text, 'D', self.date, Days_Dict[is_Days_Dict[0]])
+            except Exception as e:
+                print(e)
+
 
         else:
-            for i, j, k in zip(Strings.dateCentury, Strings.dateCenturyAbbr, range(0,10)):
-                if pattern_Comparison(re.compile(rf'[\b{i}\b|\b{j}\b]'), text):
+            for i, j, k in zip(Strings.dateCentury, Strings.dateCenturyAbbr, range(0,9)):
+                if pattern_Comparison(re.compile(r'\b{0}\b|\b{1}\b'.format(i, j)), text):
                     print("특수 일자")
+                    print(i, j)
                     if pattern_Comparison(re.compile('[열]'), text):
                         self.date = set_Fixed_Date(k + 11, 'D', self.date)
                     elif pattern_Comparison(re.compile(r'[\b스무\b]'), text):
@@ -112,10 +118,8 @@ class get_date:
 
         for week, num in zip(Strings.week, range(0,7)):
             if f"{week}요일" in text:
-                print(int(self.date.day) - self.date.weekday() + num)
                 self.date = set_Fixed_Date(int(self.date.day) - self.date.weekday() + num, 'D', self.date)
                 print(self.date.day, self.date.weekday(), num)
-                print(self.date.strftime("%Y \t %m \t %d"))
         print(self.date.strftime('%Y\t%m\t%d'))
 
                 
