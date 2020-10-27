@@ -1,12 +1,11 @@
 from New_snowshaki import ShakiBot
-from configparser import ConfigParser
+import os
 import pymongo
-config = ConfigParser()
-config.read('config.ini')
 
-token = config.get('default', 'token')
-admin = config.get('default', 'admin')
-db_path = config.get('default', 'db')
+token = os.environ["TOKEN"]
+admin = os.environ['admin']
+db_path = os.environ['db']
+
 print(db_path)
 connection = pymongo.MongoClient(db_path, port=27017)
 print(connection)
