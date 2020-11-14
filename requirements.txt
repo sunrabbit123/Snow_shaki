@@ -1,3 +1,4 @@
+pycurl==7.19.3.1
 aiohttp==3.6.3
 appdirs==1.4.4
 astroid==2.4.2
