@@ -1,7 +1,5 @@
 import aiohttp
-import requests
 from bs4 import BeautifulSoup
-from urllib.parse import quote_plus
 
 import datetime
 import random
