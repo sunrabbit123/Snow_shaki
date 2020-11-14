@@ -2,22 +2,31 @@ from New_snowshaki import ShakiBot
 import os
 import pymongo
 
-token = os.environ["TOKEN"]
-admin = os.environ['admin']
-db_path = os.environ['db']
+# token = os.environ["TOKEN"]
+# admin = os.environ['admin']
+# db_path = os.environ['db']
 
-print(db_path)
-connection = pymongo.MongoClient(db_path, port=27017)
-print(connection)
-db = connection.test
+from configparser import ConfigParser
+config = ConfigParser()
+config.read('config.ini')
+token = config.get('default', 'TOKEN')
+admin = config.get('default', 'ADMIN')
+db_path = config.get('default', 'DB')
 
-print(db)
-print("complete connect db")
-collection = db.get_collection('Shaki_command')
+if __name__ == "__main__":
+    client = pymongo.MongoClient(db_path)
+    db = client.get_database('Shaki').Shaki_command
 
-print("와ㅏㅏ 실행된다ㅏㅏ")
-ShakiBot(collection, admin = admin).run(token)
+    
+    print(type(db))
+
+
+
+    print(db)
+    print("complete connect db")
+
+    print("와ㅏㅏ 실행된다ㅏㅏ")
+    ShakiBot(db, admin = admin).run(token)
 
 
 print("샤키가 사라졌다")
-
