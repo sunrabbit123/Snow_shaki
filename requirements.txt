@@ -26,4 +26,6 @@ toml==0.10.1
 ujson==3.2.0
 uncompyle6==3.7.3
 urllib3==1.25.9
-pymongo[snappy,gssapi,srv,tls,zstd]
+gssapi==1.6.10
+srv==1.0.0
+zstd==1.4.5.1
