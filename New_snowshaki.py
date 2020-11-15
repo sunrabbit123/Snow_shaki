@@ -46,8 +46,8 @@ class ShakiBot(commands.Bot):
         super().__init__(command_prefix = None, help_command=None)
 
     async def on_ready(self):       
-        # activity = discord.Activity(name='"샤키야 도움말" 이라고 해보지 않으련?', type=discord.ActivityType.playing)
-        activity = discord.Activity(name='디버깅,,,,', type=discord.ActivityType.playing)
+        activity = discord.Activity(name='"샤키야 도움말" 이라고 해보지 않으련?', type=discord.ActivityType.playing)
+        # activity = discord.Activity(name='디버깅,,,,', type=discord.ActivityType.playing)
 
         await self.change_presence(activity=activity)
         print("야생의 샤키가 나타났다!")
