@@ -35,7 +35,7 @@ class ShakiBot(commands.Bot):
     def __init__(self, db, *, debug = False, admin : str = '508788780002443284'):
         self.debug = debug
         #self.dbmanger = dbmanger()
-        self.prefix =["샤키야","참수진","수진아","Shaki","shaki"]
+        self.prefix = Strings.bot_prefix
         self.prefixed = 0
         self.admin = admin
         self.db = custom_db(db)
