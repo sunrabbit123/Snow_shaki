@@ -6,8 +6,6 @@ def pattern_Comparison(pattern, text) -> bool:
     comparison = re.search(pattern, text)
     
     if comparison:
-        print(pattern)
-        print(comparison)
         return True
     else:
         return False
@@ -17,25 +15,25 @@ def plus_minus_date(date : datetime.datetime, YMWD, value : int) -> datetime.dat
         if value > 0:
             date += datetime.timedelta(days = 365 * value)
         else :
-            value *= value
+            value *= -1
             date -= datetime.timedelta(days = 365 * value)
     elif YMWD == "M":
         if value > 0:
             date += datetime.timedelta(month = value)
         else :
-            value *= value
+            value *= -1
             date -= datetime.timedelta(month = value)
     elif YMWD == "W":
         if value > 0:
             date += datetime.timedelta(weeks = value)
         else :
-            value *= value
+            value *= -1
             date -= datetime.timedelta(weeks = value)
     else :
         if value > 0:
             date += datetime.timedelta(days = value)
         else :
-            value *= value
+            value *= -1
             date -= datetime.timedelta(days = value)  
     return date
 
@@ -62,7 +60,7 @@ def set_Fixed_Date(value : int, YMWD : str, date : datetime.datetime) -> datetim
 class get_date:
     def __init__(self, message : discord.Message ):
         text = ' '.join(message.content.split()[1:])
-        print(text)
+
         Date_Dict = {   "주" : 'W',
                         "달" : 'M',
                         "해" : 'Y',
@@ -75,7 +73,7 @@ class get_date:
 
         if pattern_Comparison(re.compile(r'\b일 뒤\b|\b월 뒤\b|\b달 뒤\b|\b주 뒤\b'), text) and\
             pattern_Comparison(re.compile('[0-9]'), text):
-            print("일월달주")
+
             YMWD = 'M' if pattern_Comparison(re.compile('[월|달]'), text) else\
                    ('W' if pattern_Comparison(re.compile('[주]'), text) else 'D')
                    
@@ -84,19 +82,15 @@ class get_date:
 
         for days, plus in Strings.dateExp.items():
             if days in text:
-                print('내일 어제 등 : ', days)
-                print('plus :', plus, type(plus))
                 self.date = set_date(text, 'D', self.date, plus)
-                print(self.date.day)
         
         is_DMY = re.sub('[^주|달|해|년]', "", text)
         is_Days_Dict = re.sub(r'[^\b열흘\b|\b스무날\b|\b보름\b|\b그믐\b]', "", text)
-        print(is_Days_Dict)
         if is_DMY:
-            print("DMY")
-            length = re.sub('[^다|저|지]', "", text)
+            length = re.sub('[^다|저|지|전]', "", text)
+            print(len(length))
             self.date = set_date(text, Date_Dict[is_DMY[0]], self.date, len(length))
-
+        #TODO 지지난주 -> 4주 전으로 체크됨
         elif is_Days_Dict:
             try:
                 self.date = set_date(text, 'D', self.date, Days_Dict[is_Days_Dict[0]])
@@ -107,8 +101,7 @@ class get_date:
         else:
             for i, j, k in zip(Strings.dateCentury, Strings.dateCenturyAbbr, range(0,9)):
                 if pattern_Comparison(re.compile(r'\b{0}\b|\b{1}\b'.format(i, j)), text):
-                    print("특수 일자")
-                    print(i, j)
+
                     if pattern_Comparison(re.compile('[열]'), text):
                         self.date = set_Fixed_Date(k + 11, 'D', self.date)
                     elif pattern_Comparison(re.compile(r'[\b스무\b]'), text):
@@ -119,16 +112,11 @@ class get_date:
         for week, num in zip(Strings.week, range(0,7)):
             if f"{week}요일" in text:
                 self.date = set_Fixed_Date(int(self.date.day) - self.date.weekday() + num, 'D', self.date)
-                print(self.date.day, self.date.weekday(), num)
-        print(self.date.strftime('%Y\t%m\t%d'))
-
-                
-                
-
-
+        #TODO 토요일부터는 다음주의 급식을 출력
 
     def strftime(self):
-        formatted = self.date.strftime('%Y년 %m월 %d일')
+        week = ['월', '화', '수', '목', '금', '토', '일']
+        formatted = self.date.strftime('%Y년 %m월 %d일 ') + week[self.date.weekday()] + "요일"
         return formatted
 
 
