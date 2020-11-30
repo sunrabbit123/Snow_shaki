@@ -88,13 +88,11 @@ class basic_command:
                     em.add_field(name = meal_list[i]['MMEAL_SC_NM'],
                                 value = meal_filtering(meal_list[i]['DDISH_NM']),
                                 inline = True)
-                print(meal)
             else:
                 meal = meal_list[Strings.meal_dict[meal_type]]['DDISH_NM']
                 meal = re.sub(pattern = '[^가-힣|</br>]',
                                 repl =  "",
                                 string = str(meal))
-                print(meal)
                 meal = "\n".join(meal.split("<br/>"))  
                 em.add_field(name = meal_type, value = meal, inline = True)  
         except KeyError:
