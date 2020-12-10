@@ -1,7 +1,10 @@
 import datetime
+from pytz import timezone
 import discord
 import re
+
 from const import Strings
+
 def pattern_Comparison(pattern, text) -> bool:
     comparison = re.search(pattern, text)
     
@@ -69,7 +72,7 @@ class get_date:
                         "스무날" : "20",
                         "보름" : "15",
                         "그믐" : "30"}
-        self.date = datetime.datetime.now()
+        self.date = datetime.datetime.now(timezone('Asia/Seoul'))
 
         if pattern_Comparison(re.compile(r'\b일 뒤\b|\b월 뒤\b|\b달 뒤\b|\b주 뒤\b'), text) and\
             pattern_Comparison(re.compile('[0-9]'), text):
