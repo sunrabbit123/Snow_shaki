@@ -9,3 +9,4 @@ gssapi==1.6.10
 pymongo==3.11.0
 srv==1.0.0
 zstd==1.4.5.1
+pytz==2020.4
