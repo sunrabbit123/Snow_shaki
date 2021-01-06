@@ -19,8 +19,15 @@ from web_find import SearchWord
 class basic_command:
     @staticmethod
     async def command_help(message):
-        emb = set_embed(message, title="깔롤랭은 국룰입니다.", description=Docs.help)
-        await message.channel.send(embed=emb)
+        em = set_embed(message, title="샤키의 도움말 목록")
+        for i in range(Docs.help_title):
+            em.add_field(name=Docs.help_title[i], value=Docs.help_description[i])
+        em.set_footer(text=Docs.NH)
+        await message.channel.send(embed=em)
+
+    @staticmethod
+    async def command_emoji(message):
+        await message.channel.send(random.choice(Strings.emoji))
 
     @staticmethod
     async def command_choice(message):
