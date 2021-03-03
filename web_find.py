@@ -56,10 +56,11 @@ class SearchWord:
         try:
             info = soup.find_all("img")
             index = random.randint(1, len(info))
-            print(info[index])
-            return info[index]["data-src"]
+            link = info[index].split("src=")[1].split('"')[1]
+            
+            return link
         except Exception as e:
-            print(e)
+            print("err :", e)
             return None
 
     @staticmethod
