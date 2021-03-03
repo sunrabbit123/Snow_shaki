@@ -56,6 +56,7 @@ class SearchWord:
         try:
             info = soup.find_all("img")
             index = random.randint(1, len(info))
+            print(info[index])
             return info[index]["data-src"]
         except Exception as e:
             print(e)
@@ -81,4 +82,4 @@ class SearchWord:
 
 
 if __name__ == "__main__":
-    pass
+    asyncio.run(SearchWord().get_image("snow_shaki"))
