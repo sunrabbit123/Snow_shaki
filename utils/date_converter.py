@@ -74,7 +74,7 @@ class get_date:
         self.date = datetime.datetime.now(timezone("Asia/Seoul"))
 
         if pattern_Comparison(
-            re.compile(r"\b일 뒤\b|\b월 뒤\b|\b달 뒤\b|\b주 뒤\b|\b연 뒤\b|\b년 뒤\b"), text
+            re.compile(r"일 뒤\b|월 뒤\b|달 뒤\b|주 뒤\b|연 뒤\b|년 뒤\b"), text
         ) and pattern_Comparison(re.compile("[0-9]"), text):
 
             YMWD = (
