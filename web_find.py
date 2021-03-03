@@ -57,7 +57,7 @@ class SearchWord:
             info = soup.find_all("img")
             print(type(info))
             index = random.randint(1, len(info))
-            print(type(info[index]))
+            print(str(info[index]))
             link = info[index].split("src=")[1].split('"')[1]
             print(type(link))
             return link
