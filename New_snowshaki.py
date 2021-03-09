@@ -40,7 +40,6 @@ class ShakiBot(commands.Bot):
         self.prefixed = 0
         self.admin = admin
         self.db = custom_db(db)
-
         super().__init__(command_prefix=None, help_command=None)
 
     async def on_ready(self):
@@ -50,7 +49,7 @@ class ShakiBot(commands.Bot):
         # activity = discord.Activity(name='디버깅,,,,', type=discord.ActivityType.playing)
 
         await self.change_presence(activity=activity)
-        print(len(list(self.servers)) + "개의 서버에 참여중입니다.")
+        print(len(list(self.guilds)) + "개의 서버에 참여중입니다.")
         print("야생의 샤키가 나타났다!")
 
     async def on_message(self, message: discord.Message):
