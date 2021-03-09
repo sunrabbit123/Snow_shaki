@@ -51,7 +51,7 @@ class ShakiBot(commands.Bot):
         await self.change_presence(activity=activity)
         guild_list = [guild.name for guild in self.guilds]
         print(guild_list)
-        print(len(guild_list) + "개의 서버에 접속 중 입니다.")
+        print(f"{len(guild_list)}개의 서버에 접속 중 입니다.")
         
         print("야생의 샤키가 나타났다!")
 
