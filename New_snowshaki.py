@@ -49,8 +49,10 @@ class ShakiBot(commands.Bot):
         # activity = discord.Activity(name='디버깅,,,,', type=discord.ActivityType.playing)
 
         await self.change_presence(activity=activity)
-        print(self.guilds.count())
-        print([guild.name for guild in self.guilds])
+        guild_list = [guild.name for guild in self.guilds]
+        print(guild_list)
+        print(guild_list + "개의 서버에 접속 중 입니다.")
+        
         print("야생의 샤키가 나타났다!")
 
     async def on_message(self, message: discord.Message):
