@@ -52,7 +52,7 @@ class ShakiBot(commands.Bot):
         guild_list = [guild.name for guild in self.guilds]
         print(guild_list)
         print(f"{len(guild_list)}개의 서버에 접속 중 입니다.")
-        
+
         print("야생의 샤키가 나타났다!")
 
     async def on_message(self, message: discord.Message):

@@ -1,5 +1,4 @@
 import discord
-import datetime
 
 
 def set_embed(ext: discord.Message, title: str = None, description: str = None):
