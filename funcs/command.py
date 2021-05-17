@@ -118,8 +118,10 @@ class basic_command:
     @staticmethod
     async def command_링크(message):
         await message.channel.send(
-            discord.utils.oauth_url(client_id=os.environ["client"]),
-            permissions=discord.Permissions(permissions=1610837057),
+            discord.utils.oauth_url(
+                client_id=os.environ["client"],
+                permissions=discord.Permissions(permissions=1610837057),
+            )
         )
         await message.channel.send("여기 있어요,,,")
 
