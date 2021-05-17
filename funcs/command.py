@@ -1,15 +1,8 @@
 import discord
-from discord.ext import commands
 
-
-import asyncio
 import random
-import time
-import datetime
-
-import operator
-import os
 import re
+import os
 
 from utils import set_embed, get_date
 from const import Docs, Strings
@@ -112,7 +105,7 @@ class basic_command:
         except KeyError:
             em.add_field(name="오류", value="급식이 없습니다.")
         except IndexError:
-            print("저녁까지밖에 없음")
+            pass
         await message.channel.send(embed=em)
 
         # try :
@@ -124,7 +117,10 @@ class basic_command:
 
     @staticmethod
     async def command_링크(message):
-        await message.channel.send(Docs.url)
+        await message.channel.send(
+            discord.utils.oauth_url(client_id=os.environ["client"]),
+            permissions=discord.Permissions(permissions=1610837057),
+        )
         await message.channel.send("여기 있어요,,,")
 
 
