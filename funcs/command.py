@@ -21,6 +21,23 @@ class basic_command:
         await message.channel.send(embed=em)
 
     @staticmethod
+    async def command_clean_messages(message):
+        contents = message.content.split()
+        messages_to_delete = 10
+
+        if len(contents) > 2:
+            try:
+                messages_to_delete = int(contents[-1])
+            except (ValueError):
+                await message.channel.send("숫자를 입력해주세요")
+                return
+
+        deleted = await message.channel.purge(
+            limit=messages_to_delete + 1, check=lambda m: m.id != message.id
+        )
+        await message.channel.send(f"{len(deleted)}개의 메세지를 지웠어요!")
+        
+    @staticmethod
     async def command_emoji(message):
         await message.channel.send(random.choice(Strings.emoji))
 
