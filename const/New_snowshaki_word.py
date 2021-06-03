@@ -59,6 +59,7 @@ class Strings:
         "Hello": ["Hello", "hello", "안녕", "ㅎㅇ", "하이", "깔롤랭"],
         "링크": ["url", "Url", "URL", "링크", "주소", "초대"],
         "emoji": ["emoji", "이모지", "임티", "이모티콘", "표정"],
+        "clean_messages" : ["지워", "치워", "삭제", "없애", "delete", "클린", "clean"]
     }
     commands = {"help": ["샤키명령어", "샤키도움말"]}
     custom = ["배워", "잊어"]
