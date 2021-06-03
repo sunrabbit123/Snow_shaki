@@ -89,7 +89,7 @@ class ShakiBot(commands.Bot):
             except (UnicodeEncodeError, AttributeError):
                 pass  # 유니코드 에러는 스킵, 해당 클래스에 해당 함수가 없어도 스킵
 
-            if not func and prefixed:
+            if not fun:
                 diction = getattr(Strings, "meal")
                 for _command, string in diction.items():
                     for meal_command in string:
