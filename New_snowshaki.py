@@ -93,7 +93,7 @@ class ShakiBot(commands.Bot):
                 diction = getattr(Strings, "meal")
                 for _command, string in diction.items():
                     for meal_command in string:
-                        if meal_command in message.content:
+                        if meal_command == message.content:
                             func = getattr(extension, "command_급식")
                             await func(message)
                             return
