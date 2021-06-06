@@ -91,10 +91,10 @@ class ShakiBot(commands.Bot):
 
             if not func:
                 diction = getattr(Strings, "meal")
-                meal_sign = message.content.split()[1] if prefixed else message.content[1]
+                meal_sign = message.content.split()[1:].join(" ") if prefixed else message.content[0]
                 for _command, string in diction.items():
                     for meal_command in string:
-                        if meal_command == meal_sign:
+                        if meal_command in meal_sign:
                             func = getattr(extension, "command_급식")
                             await func(message)
                             return
