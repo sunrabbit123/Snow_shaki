@@ -79,7 +79,6 @@ class basic_command:
     async def command_급식(message):
         word = message.content.split()[1:]
         dates = get_date(message)
-        em = set_embed(message, title=f"{dates.strftime()}")
 
         # meal_list[0] == 조식
         # meal_list[1] == 중식
@@ -100,18 +99,21 @@ class basic_command:
             meal_list = (await SearchWord.get_meal(dates.url_date()))[
                 "mealServiceDietInfo"
             ][1]["row"]
+            
+            em = set_embed(message, title=f"{dates.strftime()}", description=meal_list[0]["SCHUL_NM"])
             if meal_type == "급식":
                 meal = list()
 
-                def meal_filtering(meal: str):
+                def meal_filtering(meal: str, CAL_INFO: str):
                     meal = re.sub(pattern="[^가-힣|</br>]", repl="", string=str(meal))
                     meal = "\n".join(meal.split("<br/>"))
+                    meal += f"\n{CAL_INFO}"
                     return meal
 
                 for i in range(0, 3):
                     em.add_field(
                         name=meal_list[i]["MMEAL_SC_NM"],
-                        value=meal_filtering(meal_list[i]["DDISH_NM"]),
+                        value=meal_filtering(meal_list[i]["DDISH_NM"], meal_list[i]["CAL_INFO"]),
                         inline=True,
                     )
             else:
