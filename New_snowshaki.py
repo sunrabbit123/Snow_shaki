@@ -89,15 +89,13 @@ class ShakiBot(commands.Bot):
             except (UnicodeEncodeError, AttributeError):
                 pass  # 유니코드 에러는 스킵, 해당 클래스에 해당 함수가 없어도 스킵
 
-            if not func:
-                diction = getattr(Strings, "meal")
-                meal_sign = " ".join(message.content.split()[1:]) if prefixed else message.content[0]
-                for _command, string in diction.items():
-                    for meal_command in string:
-                        if meal_command in meal_sign:
-                            func = getattr(extension, "command_급식")
-                            await func(message)
-                            return
+            if not func and message.content[0] == ".":
+                meal_word_list = getattr(Strings, "meal")
+                meal_sign = message.content.split()[0][1:]
+                if meal_sign in meal_word_list:
+                    func = getattr(extension, "command_급식")
+                    await func(message)
+                    return
             if func:
                 if command_type:
                     await func(message)
