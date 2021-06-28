@@ -30,6 +30,10 @@ args들 중 하나를 랜덤으로 고릅니다.
 `샤키야 급식 내일`
 해당 명령어는 내일의 급식들을 보여줍니다.
         """,
+        """
+https://github.com/sunrabbit123/Snow_shaki
+해당 레포지토리에 많은 star 부탁드려요
+        """
     ]
     url = "https://discord.com/api/oauth2/authorize?client_id=700605291196186634&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D700605291196186634%26permissions%3D8%26redirect_uri%3Dhttps%253A%252F%252Fdiscord.com%252Fapi%252Foauth2%252Fauthorize%253Fclient_id%253D700605&scope=bot"
     NH = "※ 후원은 -> 농협 356-1336-2154-93  <- 여기로 ※"
