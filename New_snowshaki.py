@@ -2,22 +2,11 @@
 import discord
 from discord.ext import commands
 
-import asyncio
 import random
-import time
-import datetime
-from functools import partial
 
-import operator
-import os
-import re
-
-import pymongo
-from const import Docs, Strings
-from web_find import SearchWord
+from const import Strings
 from funcs import basic_command, custom_command
 from model import custom_command as custom_db
-from utils import print_time, set_embed
 
 # endregion
 

@@ -1,8 +1,3 @@
-import pymongo
-from random import choice
-import asyncio
-
-
 class custom_command:
     def __init__(self, db):
         # db : mongodb database

@@ -1,14 +1,8 @@
 import aiohttp
 from bs4 import BeautifulSoup
-
-import datetime
 import random
-
 import json
 import asyncio
-import re
-
-from utils import get_date
 
 
 class HTMLGetter:

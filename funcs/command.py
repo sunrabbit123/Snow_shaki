@@ -36,7 +36,7 @@ class basic_command:
             limit=messages_to_delete + 1, check=lambda m: m.id != message.id
         )
         await message.channel.send(f"{len(deleted)}개의 메세지를 지웠어요!")
-        
+
     @staticmethod
     async def command_emoji(message):
         await message.channel.send(random.choice(Strings.emoji))
@@ -99,8 +99,12 @@ class basic_command:
             meal_list = (await SearchWord.get_meal(dates.url_date()))[
                 "mealServiceDietInfo"
             ][1]["row"]
-            
-            em = set_embed(message, title=f"{dates.strftime()}", description=meal_list[0]["SCHUL_NM"])
+
+            em = set_embed(
+                message,
+                title=f"{dates.strftime()}",
+                description=meal_list[0]["SCHUL_NM"],
+            )
             if meal_type == "급식":
                 meal = list()
 
@@ -113,7 +117,9 @@ class basic_command:
                 for i in range(0, 3):
                     em.add_field(
                         name=meal_list[i]["MMEAL_SC_NM"],
-                        value=meal_filtering(meal_list[i]["DDISH_NM"], meal_list[i]["CAL_INFO"]),
+                        value=meal_filtering(
+                            meal_list[i]["DDISH_NM"], meal_list[i]["CAL_INFO"]
+                        ),
                         inline=True,
                     )
             else:
