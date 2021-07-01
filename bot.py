@@ -3,19 +3,30 @@ import discord
 from discord.ext import commands
 
 import random
+import asyncio
 
-from const import Strings
+from const import Strings, Docs
 from funcs import basic_command, custom_command
 from model import custom_command as custom_db
 
 # endregion
 
-# region command
+# region util
 def command_find(message, prefixed=True):
     diction = getattr(Strings, "command_prefixes" if prefixed else "commands")
     for command, string in diction.items():
         if message in string:
             return command
+
+
+async def change_again_presence(bot_object, activity_list):
+    url = Docs.url
+    while not bot_object.is_closed():
+        for g in activity_list:
+            await bot_object.change_presence(
+                status=discord.Status.online, activity=discord.Streaming(name=g, url=url)
+            )
+            await asyncio.sleep(5)
 
 
 # endregion
@@ -32,17 +43,14 @@ class ShakiBot(commands.Bot):
         super().__init__(command_prefix=None, help_command=None)
 
     async def on_ready(self):
-        activity = discord.Activity(
-            name='"샤키야 도움말" 이라고 해보지 않으련?', type=discord.ActivityType.playing
-        )
-        # activity = discord.Activity(name='디버깅,,,,', type=discord.ActivityType.playing)
 
-        await self.change_presence(activity=activity)
         guild_list = [guild.name for guild in self.guilds]
         print(guild_list)
-        print(f"{len(guild_list)}개의 서버에 접속 중 입니다.")
-
         print("야생의 샤키가 나타났다!")
+        activity_list = Strings.activity_list
+        activity_list.append(f"{len(guild_list)}개의 서버에 참가중입니다!")
+        await self.wait_until_ready()
+        await change_again_presence(self, activity_list)
 
     async def on_message(self, message: discord.Message):
         await self.wait_until_ready()

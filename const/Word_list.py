@@ -2,6 +2,10 @@ import random
 
 
 class Strings:
+    activity_list = [
+        "'샤키야 도움말' 이라고 해보지 않으련?",
+        "샤키가 구르기 ",
+    ]
     emoji = [
         "야발",
         "어쩌라고요,,,,",

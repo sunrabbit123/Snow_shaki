@@ -4,9 +4,8 @@ import random
 import re
 import os
 
-from utils import set_embed, get_date
+from utils import set_embed, get_date, SearchWord
 from const import Docs, Strings
-from web_find import SearchWord
 
 
 class basic_command:
