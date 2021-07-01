@@ -1,1 +1,1 @@
-worker: python runsnow.py
+worker: ls && ../ls && python runsnow.py
