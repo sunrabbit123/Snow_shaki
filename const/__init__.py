@@ -1,2 +1,2 @@
-from .New_snowshaki_word import Strings
+from .Word_list import Strings
 from .Docs import Docs
