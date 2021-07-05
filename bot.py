@@ -5,8 +5,10 @@ from discord.ext import commands
 import random
 import asyncio
 
-from const import Strings, Docs
-from funcs import basic_command, custom_command
+import pymongo
+
+from const import Strings, Docs, CommandType
+from funcs import basic_command, custom_command, school_command
 from model import custom_command as custom_db
 
 # endregion
@@ -19,22 +21,35 @@ def command_find(message, prefixed=True):
             return command
 
 
-async def change_again_presence(bot_object : commands.bot, activity_list):
+async def change_again_presence(bot_object: commands.bot, activity_list):
     url = Docs.url
     while not bot_object.is_closed():
         for g in activity_list:
             await bot_object.change_presence(
-                status=discord.Status.online, activity=discord.Streaming(name=g, url=url)
+                status=discord.Status.online,
+                activity=discord.Streaming(name=g, url=url),
             )
             await asyncio.sleep(5)
         activity_list[-1] = f"{len(bot_object.guilds)}개의 서버에 참가중입니다!"
 
 
+command_type = {
+    "custom": custom_command,
+    "school": school_command,
+    "basic": basic_command,
+}
+
 # endregion
 
 
 class ShakiBot(commands.Bot):
-    def __init__(self, db, *, debug=False, admin: str = "508788780002443284"):
+    def __init__(
+        self,
+        db: pymongo.database.Database,
+        *,
+        debug=False,
+        admin: str = "508788780002443284",
+    ):
         self.debug = debug
         # self.dbmanger = dbmanger()
         self.prefix = Strings.bot_prefix
@@ -54,60 +69,52 @@ class ShakiBot(commands.Bot):
         await change_again_presence(self, activity_list)
 
     async def on_message(self, message: discord.Message):
-        await self.wait_until_ready()
+        await self.wait_until_ready()  # 준비가 될때까지 대기
         if message.author.bot:
             return
             # 봇이 아닐때만 작동
-
+        # 소문자로 바꾸고, 공백기준으로 나눠줌
         command = message.content.lower().split()
 
         try:
             prefixed = 1 if (command[0] in self.prefix) else 0
+            # 문장 맨 처음이 프리픽스가 들어가있다면 1, 아니라면 0
         except IndexError:
             return
         # 사진이면 리턴
 
         try:
             command = command[prefixed]
+            # 명령어는 프리픽스가 있으면 두번째, 없다면 첫번째
         except IndexError:
             await message.channel.send("먀아,,,?")
+            # 못알아먹으면 먀아?
 
         finded_command = command_find(command, prefixed=prefixed)
-        command_type = finded_command not in Strings.custom
-        # True == basic_command
-        # False == custom_command
-        extension = basic_command if command_type else custom_command
+        # 커맨드 조회
 
-        func = None
-        try:
-            func = getattr(extension, f"command_{finded_command}")
+        func = None  # 변수선언
+        if finded_command:
+            try:
+                type_of_command_flag = getattr(CommandType, finded_command)
+                extension = command_type[type_of_command_flag]
+                func = getattr(extension, f"command_{finded_command}")
 
-            print(
-                "%s : %s : %s"
-                % (message.author, message.channel.name, message.content)
-            )
-        except (UnicodeEncodeError, AttributeError):
-            pass  # 유니코드 에러는 스킵, 해당 클래스에 해당 함수가 없어도 스킵
+                print(
+                    "%s : %s : %s"
+                    % (message.author, message.channel.name, message.content)
+                )
+            except (UnicodeEncodeError, AttributeError):
+                pass  # 유니코드 에러는 스킵, 해당 클래스에 해당 함수가 없어도 스킵
 
-        if not func and message.content[0] == ".":
-            meal_word_list = getattr(Strings, "meal")
-            meal_sign = message.content.split()[0][1:]
-            if meal_sign in meal_word_list:
-                func = getattr(extension, "command_급식")
-                await func(message)
-                return
-        if func:
-            if command_type:
-                await func(message)
-            else:
-                await func(message, self.db)
-        else:
-            if prefixed == False:
-                return
-            else:
-                try:
-                    value_command = random.choice(self.db.command_select(message))
-                    await message.channel.send(value_command["value-command"])
-                except IndexError:
-                    pass  # 값이 없을 경우 choice가 불가능하기에 IndexError이 나타남
-                return
+            if func:
+                if type_of_command_flag == "basic":  # 나머지는 db 필요
+                    await func(message)
+                else:
+                    await func(message, self.db)
+        elif prefixed:
+            try:
+                value_command = random.choice(self.db.command_select(message))
+                await message.channel.send(value_command["value-command"])
+            except IndexError:
+                pass  # 값이 없을 경우 choice가 불가능하기에 IndexError이 나타남

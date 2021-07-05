@@ -1,2 +1,2 @@
-from .Word_list import Strings
+from .Word_list import Strings, CommandType
 from .Docs import Docs

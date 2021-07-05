@@ -22,16 +22,15 @@ class Strings:
     ]
     # endregion
     # region bot const
-    
+
     meal_dict = {"조식": 0, "중식": 1, "석식": 2}
     # endregion
 
     # region command list
     command_prefixes = {
-        #region basic command
+        # region basic command
         "help": ["도움말", "명령어", "help", "?", "도와줘"],
         "choice": ["골라", "뽑아", "chose"],
-       
         "구글검색": ["구글검색", "사진검색", "사진가져와", "사진"],
         "사전검색": ["사전검색", "지식검색", "네이버검색", "사전"],
         "굴러": [
@@ -49,12 +48,10 @@ class Strings:
         "emoji": ["emoji", "이모지", "임티", "이모티콘", "표정"],
         "clean_messages": ["지워", "치워", "삭제", "없애", "delete", "클린", "clean"],
         # endregion
-        
         # region custom command
         "배워": ["배워", "익혀", "study"],
         "잊어": ["잊어", "forget"],
         # endregion
-
         # region school command
         "급식": ["급식", "밥", "배고파", "조식", "아침", "중식", "점심", "석식", "저녁", "저녘", "내일"],
         # endregion
@@ -63,7 +60,7 @@ class Strings:
     # region command type
     # custom command
     custom = ["배워", "잊어"]
-    
+
     # School Command
     school = ["시간표", "급식"]
     # endregion
@@ -128,16 +125,20 @@ class Strings:
 
     roll = random.choice(["데구르르 꽝", "꽝 데구르르", "데구르르 뎅강", "ㄷㄱㄹㄹ ㄷㄱ", "야랄,,, 너나 구르세요"])
     # endregion
+
+
 class CommandType:
     배워 = "custom"
     잊어 = "custom"
 
     시간표 = "school"
     급식 = "school"
-    
+
     help = "basic"
     choice = "basic"
     구글검색 = "basic"
     사전검색 = "basic"
     굴러 = "basic"
-    닉네임 = "basic"
+    링크 = "basic"
+    emoji = "basic"
+    clean_message = "basic"
