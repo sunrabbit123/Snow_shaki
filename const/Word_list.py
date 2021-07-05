@@ -44,10 +44,10 @@ class Strings:
     ]
 
     command_prefixes = {
+        #region basic command
         "help": ["도움말", "명령어", "help", "?", "도와줘"],
         "choice": ["골라", "뽑아", "chose"],
-        "배워": ["배워", "익혀", "study"],
-        "잊어": ["잊어", "forget"],
+       
         "구글검색": ["구글검색", "사진검색", "사진가져와", "사진"],
         "사전검색": ["사전검색", "지식검색", "네이버검색", "사전"],
         "굴러": [
@@ -69,6 +69,13 @@ class Strings:
         "emoji": ["emoji", "이모지", "임티", "이모티콘", "표정"],
         "clean_messages": ["지워", "치워", "삭제", "없애", "delete", "클린", "clean"],
         "급식": ["급식", "밥", "배고파", "조식", "아침", "중식", "점심", "석식", "저녁", "저녘", "내일"],
+        # endregion
+        
+        # region custom command
+        "배워": ["배워", "익혀", "study"],
+        "잊어": ["잊어", "forget"],
+        # endregion
+        
     }
     commands = {"help": ["샤키명령어", "샤키도움말"]}
     custom = ["배워", "잊어"]
