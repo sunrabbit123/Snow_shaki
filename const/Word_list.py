@@ -1,35 +1,13 @@
+from model.command import custom_command
 import random
 
 
 class Strings:
+    # region bot information
     activity_list = [
         "'샤키야 도움말' 이라고 해보지 않으련?",
         "샤키가 구르기 ",
     ]
-    emoji = [
-        "야발",
-        "어쩌라고요,,,,",
-        "☆*:.｡. o(≧▽≦)o .｡.:*☆",
-        "༼ ༎ຶ ෴ ༎ຶ༽",
-        "༼; ́༎ຶ ۝༎ຶ`༽",
-        "༼; ́༎ຶ + ༎ຶ༽]",
-        "(╬ ಠ 益ಠ)",
-        "ಥಒ್ಲಥ",
-        "ꂧ᷆◞८̯◟ꂧ᷆",
-        "૮(ꂧꁞꂧ)ა",
-        "(๑≖ิټ≖ิ)",
-        "(´⊙ω⊙`)",
-        "( ́◞ิ౪◟ิ‵)",
-        "ᓀ( ́◒`๑)",
-        "(ง ̇∇ ̇)ว(ว ̇∇ ̇)ง",
-        "(╯°□°）╯︵ ┻━┻",
-        "༼ つ ◕_◕ ༽つ",
-        "¯\_(ツ)_/¯",
-        "(´▽`ʃ♡ƪ)",
-    ]
-
-    roll = random.choice(["데구르르 꽝", "꽝 데구르르", "데구르르 뎅강", "ㄷㄱㄹㄹ ㄷㄱ", "야랄,,, 너나 구르세요"])
-
     bot_prefix = [
         "샤키야",
         "참수진",
@@ -42,7 +20,13 @@ class Strings:
         "샤키",
         "수진",
     ]
+    # endregion
+    # region bot const
+    
+    meal_dict = {"조식": 0, "중식": 1, "석식": 2}
+    # endregion
 
+    # region command list
     command_prefixes = {
         #region basic command
         "help": ["도움말", "명령어", "help", "?", "도와줘"],
@@ -61,27 +45,35 @@ class Strings:
             "eprnfmfm",
             "Rhkd",
         ],
-        "닉네임": ["이름", "구분"],
-        "custom": ["커스텀", "커맨드", "사용자지정"],
-        "study": ["공부", "스터디", "study", "learning"],
-        "Hello": ["Hello", "hello", "안녕", "ㅎㅇ", "하이", "깔롤랭"],
         "링크": ["url", "Url", "URL", "링크", "주소", "초대"],
         "emoji": ["emoji", "이모지", "임티", "이모티콘", "표정"],
         "clean_messages": ["지워", "치워", "삭제", "없애", "delete", "클린", "clean"],
-        "급식": ["급식", "밥", "배고파", "조식", "아침", "중식", "점심", "석식", "저녁", "저녘", "내일"],
         # endregion
         
         # region custom command
         "배워": ["배워", "익혀", "study"],
         "잊어": ["잊어", "forget"],
         # endregion
-        
-    }
-    commands = {"help": ["샤키명령어", "샤키도움말"]}
-    custom = ["배워", "잊어"]
-    meal_dict = {"조식": 0, "중식": 1, "석식": 2}
-    meal = ["급식", "밥", "배고파", "조식", "아침", "중식", "점심", "석식", "저녁", "저녘"]
 
+        # region school command
+        "급식": ["급식", "밥", "배고파", "조식", "아침", "중식", "점심", "석식", "저녁", "저녘", "내일"],
+        # endregion
+    }
+
+    # region command type
+    # custom command
+    custom = ["배워", "잊어"]
+    
+    # School Command
+    school = ["시간표", "급식"]
+    # endregion
+
+    # region none prefix
+    commands = {"help": ["샤키명령어", "샤키도움말"]}
+    meal = ["급식", "밥", "배고파", "조식", "아침", "중식", "점심", "석식", "저녁", "저녘"]
+    # endregion
+
+    # region datetime
     week = ["월", "화", "수", "목", "금", "토", "일"]
     dateCentury = ["하룻", "이튿", "사흗", "나흗", "닷샛", "엿샛", "이렛", "여드렛", "아흐렛"]
     dateCenturyAbbr = [
@@ -108,3 +100,44 @@ class Strings:
         "그글피": 4,
     }
     dateYearExp = ["재재작년", "재작년", "작년", "올해", "내년", "후년", "내후년", "후후년"]
+    # endregion
+
+    # region const message
+
+    emoji = [
+        "야발",
+        "어쩌라고요,,,,",
+        "☆*:.｡. o(≧▽≦)o .｡.:*☆",
+        "༼ ༎ຶ ෴ ༎ຶ༽",
+        "༼; ́༎ຶ ۝༎ຶ`༽",
+        "༼; ́༎ຶ + ༎ຶ༽]",
+        "(╬ ಠ 益ಠ)",
+        "ಥಒ್ಲಥ",
+        "ꂧ᷆◞८̯◟ꂧ᷆",
+        "૮(ꂧꁞꂧ)ა",
+        "(๑≖ิټ≖ิ)",
+        "(´⊙ω⊙`)",
+        "( ́◞ิ౪◟ิ‵)",
+        "ᓀ( ́◒`๑)",
+        "(ง ̇∇ ̇)ว(ว ̇∇ ̇)ง",
+        "(╯°□°）╯︵ ┻━┻",
+        "༼ つ ◕_◕ ༽つ",
+        "¯\_(ツ)_/¯",
+        "(´▽`ʃ♡ƪ)",
+    ]
+
+    roll = random.choice(["데구르르 꽝", "꽝 데구르르", "데구르르 뎅강", "ㄷㄱㄹㄹ ㄷㄱ", "야랄,,, 너나 구르세요"])
+    # endregion
+class CommandType:
+    배워 = "custom"
+    잊어 = "custom"
+
+    시간표 = "school"
+    급식 = "school"
+    
+    help = "basic"
+    choice = "basic"
+    구글검색 = "basic"
+    사전검색 = "basic"
+    굴러 = "basic"
+    닉네임 = "basic"
