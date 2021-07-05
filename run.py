@@ -15,7 +15,7 @@ db_path = os.environ["db"]
 
 if __name__ == "__main__":
     client = pymongo.MongoClient(db_path)
-    db = client.get_database("Shaki").Shaki_command
+    db = client.get_database("Shaki")
     print("complete connect db")
     print("와ㅏㅏ 실행된다ㅏㅏ")
     ShakiBot(db, admin=admin).run(token)
