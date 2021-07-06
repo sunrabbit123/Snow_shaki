@@ -1,7 +1,7 @@
 import pymongo
 
 
-class custom_command:
+class CustomCommandModel:
     def __init__(self, db: pymongo.database.Database):
         # db : mongodb database
         self.collect: pymongo.collection.Collection = db.Shaki_command

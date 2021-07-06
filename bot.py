@@ -8,8 +8,8 @@ import asyncio
 import pymongo
 
 from const import Strings, Docs, CommandType
-from funcs import basic_command, custom_command, school_command
-from model import custom_command as custom_db
+from funcs import *
+from model import CustomCommandModel as CCM
 
 # endregion
 
@@ -34,9 +34,9 @@ async def change_again_presence(bot_object: commands.bot, activity_list):
 
 
 command_type = {
-    "custom": custom_command,
-    "school": school_command,
-    "basic": basic_command,
+    "custom": CustomCommand,
+    "school": SchoolCommand,
+    "basic": BasicCommand,
 }
 
 # endregion
@@ -55,7 +55,7 @@ class ShakiBot(commands.Bot):
         self.prefix = Strings.bot_prefix
         self.prefixed = 0
         self.admin = admin
-        self.db = custom_db(db)
+        self.db = db
         super().__init__(command_prefix=None, help_command=None)
 
     async def on_ready(self):
@@ -92,7 +92,6 @@ class ShakiBot(commands.Bot):
 
         finded_command = command_find(command, prefixed=prefixed)
         # 커맨드 조회
-
         func = None  # 변수선언
         if finded_command:
             try:
@@ -114,7 +113,7 @@ class ShakiBot(commands.Bot):
                     await func(message, self.db)
         elif prefixed:
             try:
-                value_command = random.choice(self.db.command_select(message))
+                value_command = random.choice(CCM(self.db).command_select(message))
                 await message.channel.send(value_command["value-command"])
             except IndexError:
                 pass  # 값이 없을 경우 choice가 불가능하기에 IndexError이 나타남

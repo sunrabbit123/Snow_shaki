@@ -1,7 +1,7 @@
 import discord
 
 
-class custom_command:
+class CustomCommand:
     @staticmethod
     async def command_잊어(message: discord.Message, db):  # 샤키야 key커맨드
         key = message.content.split()[2]

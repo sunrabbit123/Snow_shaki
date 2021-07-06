@@ -8,7 +8,7 @@ from utils import set_embed, SearchWord
 from const import Docs, Strings
 
 
-class basic_command:
+class BasicCommand:
     @staticmethod
     async def command_help(message: discord.Message):
         em = set_embed(message, title="샤키의 도움말 목록")

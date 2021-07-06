@@ -1,4 +1,3 @@
-from model.command import custom_command
 import random
 
 
@@ -19,6 +18,7 @@ class Strings:
         "스노우스키",
         "샤키",
         "수진",
+        ".",
     ]
     # endregion
     # region bot const

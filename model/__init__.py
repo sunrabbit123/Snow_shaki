@@ -1,1 +1,2 @@
-from .command import custom_command
+from .command import CustomCommandModel
+from .school import SchoolCommandModel

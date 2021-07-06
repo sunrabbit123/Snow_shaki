@@ -1,3 +1,4 @@
+from .url_manager import url_manager
 import aiohttp
 from bs4 import BeautifulSoup
 import random
@@ -17,6 +18,12 @@ class HTMLGetter:
             html = await cs.get(self.url, headers=headers)
             return await html.text()
 
+    async def get_json(self, url: str):
+        html = await self.get_html(url)
+        data = BeautifulSoup(html, "html.parser")
+        jsonData = json.loads(data.get_text())
+        return jsonData
+
     async def get_soup(self):
         html = await self.get_html()
         try:
@@ -27,7 +34,8 @@ class HTMLGetter:
 
 
 class SearchWord:
-    async def get_dic(self, keyword):
+    @staticmethod
+    async def get_dic(keyword : str):
 
         soup = await HTMLGetter(
             "https://terms.naver.com/search.nhn?query=%s&searchType=&dicType=&subject="
@@ -42,7 +50,8 @@ class SearchWord:
             print(e)
             return None
 
-    async def get_image(self, keyword):
+    @staticmethod
+    async def get_image(keyword : str):
         soup = await HTMLGetter(
             f"https://www.google.co.kr/search?q={keyword}&source=lnms&tbm=isch"
         ).get_soup()
@@ -56,24 +65,26 @@ class SearchWord:
             print("err :", e)
             return None
 
+class NeisAPI:
+    auth_key = "bfa95730b1b84b07b2db733b2138d9aa"
     @staticmethod
-    async def get_meal(date: str):
+    async def get_meal(date: str, ATPT_OFCDC_SC_CODE: str, SCHOOL_CODE: str):
         # region URL
-        URL = (
-            "https://open.neis.go.kr/hub/mealServiceDietInfo?"
-            + "Type=json"
-            + "&KEY=bfa95730b1b84b07b2db733b2138d9aa"
-            + "&pIndex=1"
-            + "&pSize=100"
-            + "&ATPT_OFCDC_SC_CODE=F10"
-            + "&SD_SCHUL_CODE=7380292"
-        )
-        URL += "&MLSV_YMD=" + date
+        addition = [
+            f"MLSV_YMD={date}",
+            f"ATPT_OFCDC_SC_CODE={ATPT_OFCDC_SC_CODE}",
+            f"SD_SCHUL_CODE={SCHOOL_CODE}",
+        ]
+        url: str = url_manager(
+            type="mealServiceDietInfo", additions=addition, auth_key=NeisAPI.auth_key
+        ).get_url()
         # endregion
-        print(URL)
-        data = json.loads(await HTMLGetter(URL).get_html())
-        return data
-
-
-if __name__ == "__main__":
-    asyncio.run(SearchWord().get_image("snow_shaki"))
+        print(url)
+        return (await HTMLGetter(url).get_json())
+        
+    @staticmethod
+    async def search_school(school : str):
+        url: str = url_manager(
+            type="schoolInfo", additions=[f"SCHUL_NM={school}"], auth_key=NeisAPI.auth_key
+        ).get_url()
+        return (await HTMLGetter().get_json(url))
