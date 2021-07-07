@@ -66,7 +66,7 @@ class SchoolCommand:
             except Exception as err:
                 print(err)
             await msg.edit(embed=set_embed(message, title="", description="성공적으로 처리되었습니다 :D"))
-            
+            await msg.clear_reactions()
 
     @staticmethod
     async def command_급식(message: discord.message, db):
@@ -97,7 +97,7 @@ class SchoolCommand:
                     school["SCHOOL_CODE"],
                 )
             )["mealServiceDietInfo"][1]["row"]
-            
+
             em = set_embed(
                 message,
                 title=f"{dates.strftime()}",
