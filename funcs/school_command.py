@@ -106,8 +106,8 @@ class SchoolCommand:
 
             def meal_filtering(meal: str, CAL_INFO: str):
                     meal = StringManger.filter_without_dot_and_korean(meal)
-                    meal = StringManger.brank_to_new_line(meal)
-                    meal += f"\n{CAL_INFO}"
+                    meal = StringManger.dots_to_new_line(meal)
+                    meal += f"{CAL_INFO}"
                     return meal
 
             if meal_type == "급식":
@@ -125,7 +125,7 @@ class SchoolCommand:
                 meal = meal_list[Strings.meal_dict[meal_type]]
                 meal = meal_filtering(meal["DDISH_NM"], meal["CAL_INFO"])
                 em.add_field(name=meal_type, value=meal, inline=True)
-                
+
         except KeyError:
             em.add_field(name="오류", value="급식이 없습니다.")
         except TypeError:

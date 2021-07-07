@@ -109,6 +109,8 @@ class ShakiBot(commands.Bot):
             if func:
                 if type_of_command_flag == "basic":  # 나머지는 db 필요
                     await func(message)
+                elif finded_command == "regist":
+                    await func(message, self.db, self)
                 else:
                     await func(message, self.db)
         elif prefixed:

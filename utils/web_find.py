@@ -18,8 +18,8 @@ class HTMLGetter:
             html = await cs.get(self.url, headers=headers)
             return await html.text()
 
-    async def get_json(self, url: str):
-        html = await self.get_html(url)
+    async def get_json(self):
+        html = await self.get_html()
         data = BeautifulSoup(html, "html.parser")
         jsonData = json.loads(data.get_text())
         return jsonData
@@ -35,7 +35,7 @@ class HTMLGetter:
 
 class SearchWord:
     @staticmethod
-    async def get_dic(keyword : str):
+    async def get_dic(keyword: str):
 
         soup = await HTMLGetter(
             "https://terms.naver.com/search.nhn?query=%s&searchType=&dicType=&subject="
@@ -51,7 +51,7 @@ class SearchWord:
             return None
 
     @staticmethod
-    async def get_image(keyword : str):
+    async def get_image(keyword: str):
         soup = await HTMLGetter(
             f"https://www.google.co.kr/search?q={keyword}&source=lnms&tbm=isch"
         ).get_soup()
@@ -65,8 +65,10 @@ class SearchWord:
             print("err :", e)
             return None
 
+
 class NeisAPI:
     auth_key = "bfa95730b1b84b07b2db733b2138d9aa"
+
     @staticmethod
     async def get_meal(date: str, ATPT_OFCDC_SC_CODE: str, SCHOOL_CODE: str):
         # region URL
@@ -80,11 +82,13 @@ class NeisAPI:
         ).get_url()
         # endregion
         print(url)
-        return (await HTMLGetter(url).get_json())
-        
+        return await HTMLGetter(url).get_json()
+
     @staticmethod
-    async def search_school(school : str):
+    async def search_school(school: str):
         url: str = url_manager(
-            type="schoolInfo", additions=[f"SCHUL_NM={school}"], auth_key=NeisAPI.auth_key
+            type="schoolInfo",
+            additions=[f"SCHUL_NM={school}"],
+            auth_key=NeisAPI.auth_key,
         ).get_url()
-        return (await HTMLGetter().get_json(url))
+        return await HTMLGetter(url).get_json()
