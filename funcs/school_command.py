@@ -97,7 +97,7 @@ class SchoolCommand:
                     school["SCHOOL_CODE"],
                 )
             )["mealServiceDietInfo"][1]["row"]
-            print(meal_list)
+            
             em = set_embed(
                 message,
                 title=f"{dates.strftime()}",
