@@ -92,3 +92,25 @@ class NeisAPI:
             auth_key=NeisAPI.auth_key,
         ).get_url()
         return await HTMLGetter(url).get_json()
+
+    @staticmethod
+    async def get_schedule(**school_info):
+        school_type: dict = {
+        "초등학교": "elsTimetable",
+        "중학교": "misTimetable",
+        "고등학교": "hisTimetable",
+        "특수학교": "spsTimetable",
+        }
+
+        addition: list = [
+            "ATPT_OFCDC_SC_CODE=%s" % school_info["ATPT_OFCDC_SC_CODE"], # 교육청 
+            "SD_SCHUL_CODE=%s" % school_info["SCHOOL_INFO"], # 학교
+            "ALL_TI_YMD=%s" % school_info["ALL_TI_YMD"], # 일자
+            "GRADE=%s" % school_info["GRADE"], # 학년
+            "CLASS_NM=%s" % school_info["CLASS_NM"] # 반
+        ]
+
+        url: str = url_manager(
+            type=school_type[school_info["SCHUL_KND_SC_NM"]], additions=addition, auth_key=NeisAPI.auth_key
+        ).get_url()
+        return await HTMLGetter(url).get_json()
