@@ -19,7 +19,12 @@ class SchoolCommandModel:
         result = list(
             self.collect.find(
                 {"server": server, "channel": channel},
-                {"_id": False, "ATPT_OFCDC_SC_CODE": True, "SCHOOL_CODE": True},
+                {
+                    "_id": False,
+                    "ATPT_OFCDC_SC_CODE": True,
+                    "SCHOOL_CODE": True,
+                    "SCHUL_KND_SC_NM": True,
+                },
             )
         )
 
@@ -33,7 +38,12 @@ class SchoolCommandModel:
         return self.school
 
     async def register(
-        self, server: str, channel: str, ATPT_OFCDC_SC_CODE: str, SCHOOL_CODE: str
+        self,
+        server: str,
+        channel: str,
+        ATPT_OFCDC_SC_CODE: str,
+        SCHOOL_CODE: str,
+        SCHUL_KND_SC_NM: str,
     ) -> bool:
         self.collect.insert(
             {
@@ -41,6 +51,7 @@ class SchoolCommandModel:
                 "channel": channel,
                 "ATPT_OFCDC_SC_CODE": ATPT_OFCDC_SC_CODE,
                 "SCHOOL_CODE": SCHOOL_CODE,
+                "SCHUL_KND_SC_NM": SCHUL_KND_SC_NM,
             }
         )
         return True
