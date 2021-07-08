@@ -1,11 +1,9 @@
 import asyncio
-import re
-from utils.string import StringManger
 
 import discord
 from discord.ext.commands import Bot
 
-from utils import set_embed, get_date, NeisAPI
+from utils import get_date, set_embed, get_date, NeisAPI, not_found_school, StringManger
 from const import Strings
 from model import SchoolCommandModel as SC
 
@@ -13,7 +11,7 @@ from model import SchoolCommandModel as SC
 class SchoolCommand:
     @staticmethod
     async def command_시간표(message: discord.message, db):
-        return None
+        date = get_date(message).url_date
 
     @staticmethod
     async def command_regist(message: discord.message, db, client: Bot):
@@ -54,18 +52,33 @@ class SchoolCommand:
                 "reaction_add", timeout=30.0, check=check
             )
         except asyncio.TimeoutError:
-            await msg.edit(embed=set_embed(message, title="시간 초과", description="야랄,, 불러놓고 대답을 안하네\n30초만 기다릴거니까 그 안에 누르라고;;\n아무튼 등록취소야,,,"))
+            await msg.edit(
+                embed=set_embed(
+                    message,
+                    title="시간 초과",
+                    description="야랄,, 불러놓고 대답을 안하네\n30초만 기다릴거니까 그 안에 누르라고;;\n아무튼 등록취소야,,,",
+                )
+            )
             await msg.clear_reactions()
         else:
-            index : int = Strings.number_emoji_dict[str(reaction.emoji)] # 이모지에 해당하는 인덱스값 구하기
-            school : dict = search_result[index] # 이모지에 해당하는 인덱스값으로 학교 조회
+            index: int = Strings.number_emoji_dict[
+                str(reaction.emoji)
+            ]  # 이모지에 해당하는 인덱스값 구하기
+            school: dict = search_result[index]  # 이모지에 해당하는 인덱스값으로 학교 조회
             school_con = SC(db)
             try:
                 await school_con.delete_school(message.guild.id, message.channel.id)
-                await school_con.register(message.guild.id, message.channel.id, school["ATPT_OFCDC_SC_CODE"], school["SD_SCHUL_CODE"])
+                await school_con.register(
+                    message.guild.id,
+                    message.channel.id,
+                    school["ATPT_OFCDC_SC_CODE"],
+                    school["SD_SCHUL_CODE"],
+                )
             except Exception as err:
                 print(err)
-            await msg.edit(embed=set_embed(message, title="", description="성공적으로 처리되었습니다 :D"))
+            await msg.edit(
+                embed=set_embed(message, title="", description="성공적으로 처리되었습니다 :D")
+            )
             await msg.clear_reactions()
 
     @staticmethod
@@ -105,10 +118,10 @@ class SchoolCommand:
             )
 
             def meal_filtering(meal: str, CAL_INFO: str):
-                    meal = StringManger.filter_without_dot_and_korean(meal)
-                    meal = StringManger.dots_to_new_line(meal)
-                    meal += f"{CAL_INFO}"
-                    return meal
+                meal = StringManger.filter_without_dot_and_korean(meal)
+                meal = StringManger.dots_to_new_line(meal)
+                meal += f"{CAL_INFO}"
+                return meal
 
             if meal_type == "급식":
                 meal = list()
@@ -130,10 +143,7 @@ class SchoolCommand:
             em.add_field(name="오류", value="급식이 없습니다.")
         except TypeError:
             # school이 None일때
-            em = set_embed(
-                message,
-                description="야발,, 학교도 등록이 안되어있는데 뭘ㄹ,,\n**샤키야 학교검색 학교이름**이라고 해보던가,,",
-            )
+            em = not_found_school(message)
         except IndexError:
             pass
         await message.channel.send(embed=em)
