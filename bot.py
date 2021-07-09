@@ -74,23 +74,23 @@ class ShakiBot(commands.Bot):
             return
             # 봇이 아닐때만 작동
         # 소문자로 바꾸고, 공백기준으로 나눠줌
-        command = message.content.lower().split()
+        messages = message.content.lower().split()
 
         try:
-            prefixed = 1 if (command[0] in self.prefix) else 0
+            prefixed = 1 if (messages[0] in self.prefix) else 0
             # 문장 맨 처음이 프리픽스가 들어가있다면 1, 아니라면 0
         except IndexError:
             return
         # 사진이면 리턴
 
         try:
-            command = command[prefixed]
+            command = messages[prefixed]
             # 명령어는 프리픽스가 있으면 두번째, 없다면 첫번째
         except IndexError:
             await message.channel.send("먀아,,,?")
             # 못알아먹으면 먀아?
 
-        finded_command = command_find(command, prefixed=prefixed)
+        finded_command = command_find(command, prefixed=prefixed) or command_find(messages[2], prefixed=True)
         # 커맨드 조회
         func = None  # 변수선언
         if finded_command:
