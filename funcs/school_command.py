@@ -131,8 +131,12 @@ class SchoolCommand:
     async def command_급식(message: discord.message, db):
         word = message.content.split()[1:]
         dates = get_date(message)
-        school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
-
+        try:
+            school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
+        except KeyError:
+            em = not_found_school()
+            await message.channel.send(embed=em)
+            return
         # meal_list[0] == 조식
         # meal_list[1] == 중식
         # meal_list[2] == 석식
