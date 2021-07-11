@@ -14,13 +14,19 @@ class SchoolCommand:
     async def command_시간표(message: discord.message, db):
         date = get_date(message)
         school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
-
+        
         data: dict = {
             "ATPT_OFCDC_SC_CODE": school["ATPT_OFCDC_SC_CODE"],
             "SCHOOL_INFO": school["SCHOOL_CODE"],
             "ALL_TI_YMD": date.url_date(),
-            "SCHUL_KND_SC_NM": school["SCHUL_KND_SC_NM"],
         }
+        try:
+            data["SCHUL_KND_SC_NM"] = school["SCHUL_KND_SC_NM"]
+        except KeyError:
+            em = not_found_school(message)
+            await message.channel.send(embed=em)
+            return
+            
         content = message.content
         data["GRADE"] = StringManger.get_grade(content)
         data["CLASS_NM"] = StringManger.get_class(content)
