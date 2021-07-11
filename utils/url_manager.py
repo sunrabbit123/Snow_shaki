@@ -17,7 +17,7 @@ class url_manager:
 
         self.url = (
             f"https://open.neis.go.kr/hub/{type}?Type=json&{option}"
-            + ("" if auth_key is None else auth_key)
+            + ("" if auth_key is None else "&KEY=" + auth_key)
             + f"{addition_str}"
         )
 

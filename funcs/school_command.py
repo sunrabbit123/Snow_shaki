@@ -1,7 +1,8 @@
-import asyncio
-
 import discord
 from discord.ext.commands import Bot
+
+import asyncio
+import re
 
 from utils import get_date, set_embed, get_date, NeisAPI, not_found_school, StringManger
 from const import Strings
@@ -11,7 +12,43 @@ from model import SchoolCommandModel as SC
 class SchoolCommand:
     @staticmethod
     async def command_시간표(message: discord.message, db):
-        date = get_date(message).url_date
+        date = get_date(message)
+        school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
+
+        data: dict = {
+            "ATPT_OFCDC_SC_CODE": school["ATPT_OFCDC_SC_CODE"],
+            "SCHOOL_INFO": school["SCHOOL_CODE"],
+            "ALL_TI_YMD": date.url_date(),
+            "SCHUL_KND_SC_NM": school["SCHUL_KND_SC_NM"],
+        }
+        content = message.content
+        data["GRADE"] = StringManger.get_grade(content)
+        data["CLASS_NM"] = StringManger.get_class(content)
+        embed = None
+        try:
+            search_result = (await NeisAPI.get_schedule(**data))[
+                Strings.school_type[school["SCHUL_KND_SC_NM"]]
+            ][1]["row"]
+            print(search_result)
+            embed = set_embed(
+                message,
+                title=f"{date.strftime()}",
+                description="%s\n%s"
+                % (
+                    search_result[0]["SCHUL_NM"],
+                    data["GRADE"] + "학년 " + data["CLASS_NM"] + "반",
+                ),
+            )
+            for i in search_result:
+                embed.add_field(
+                    name="%s교시" % i["PERIO"], value=i["ITRT_CNTNT"], inline=False
+                )
+        except KeyError:
+            embed = set_embed(
+                message, title="검색결과가 없습니다.", description="그니까 똑바로 검색하라고 ㅡㅡ,,,,"
+            )
+        finally:
+            await message.channel.send(embed=embed)
 
     @staticmethod
     async def command_regist(message: discord.message, db, client: Bot):
@@ -73,6 +110,7 @@ class SchoolCommand:
                     message.channel.id,
                     school["ATPT_OFCDC_SC_CODE"],
                     school["SD_SCHUL_CODE"],
+                    school["SCHUL_KND_SC_NM"],
                 )
             except Exception as err:
                 print(err)

@@ -90,11 +90,16 @@ class ShakiBot(commands.Bot):
             await message.channel.send("먀아,,,?")
             # 못알아먹으면 먀아?
 
-        try : finded_command = command_find(command, prefixed=prefixed) or command_find(
-                messages[2], prefixed=True
+        finded_command = None  # 선언
+        try:
+            finded_command = command_find(command, prefixed=prefixed) or (
+                command_find(messages[2], prefixed=True)
+                or command_find(messages[-1], prefixed=True)
+                if prefixed
+                else None
             )
         except IndexError:
-            pass # messages[2]를 조회함으로써 생기는 에러 
+            pass  # messages[2]를 조회함으로써 생기는 에러
         # 커맨드 조회
         func = None  # 변수선언
         if finded_command:

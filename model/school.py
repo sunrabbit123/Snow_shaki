@@ -27,11 +27,11 @@ class SchoolCommandModel:
                 },
             )
         )
-
         if result:
             self.school: dict = {
                 "ATPT_OFCDC_SC_CODE": result[0]["ATPT_OFCDC_SC_CODE"],
                 "SCHOOL_CODE": result[0]["SCHOOL_CODE"],
+                "SCHUL_KND_SC_NM": result[0]["SCHUL_KND_SC_NM"],
             }
         else:
             self.school: dict = None

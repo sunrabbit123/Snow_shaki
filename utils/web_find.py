@@ -115,4 +115,5 @@ class NeisAPI:
             additions=addition,
             auth_key=NeisAPI.auth_key,
         ).get_url()
+        print(url)
         return await HTMLGetter(url).get_json()
