@@ -15,7 +15,7 @@ class SchoolCommand:
         date = get_date(message)
         school = None
         data = None
-        try:
+        try:# TODO 길드가 없을경우 (갠디일 경우) 처리 필요
             school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
             
             data: dict = {
@@ -47,10 +47,14 @@ class SchoolCommand:
                     data["GRADE"] + "학년 " + data["CLASS_NM"] + "반",
                 ),
             )
+            regacy = None
             for i in search_result:
+                if i["PERIO"] == regacy:
+                    continue
                 embed.add_field(
                     name="%s교시" % i["PERIO"], value=i["ITRT_CNTNT"], inline=False
                 )
+                regacy = i["PERIO"]
         except KeyError:
             embed = set_embed(
                 message, title="검색결과가 없습니다.", description="그니까 똑바로 검색하라고 ㅡㅡ,,,,"
