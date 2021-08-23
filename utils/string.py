@@ -3,12 +3,12 @@ import re
 
 class StringManger:
     @staticmethod
-    def dots_to_new_line(string: str) -> str:
-        return re.sub(pattern="[.]+", repl="\n", string=string)
+    def br_to_new_line(string: str) -> str:
+        return string.replace("<br/>", "\n") + "\n"
 
     @staticmethod
     def filter_without_dot_and_korean(string: str) -> str:
-        return re.sub(pattern="[^가-힣.]", repl="", string=string)
+        return re.sub(pattern="[^가-힣<br/>]", repl="", string=string)
 
     @staticmethod
     def get_grade(string: str) -> str:

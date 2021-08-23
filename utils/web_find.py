@@ -20,9 +20,8 @@ class HTMLGetter:
 
     async def get_json(self):
         html = await self.get_html()
-        data = BeautifulSoup(html, "html.parser")
-        jsonData = json.loads(data.get_text())
-        return jsonData
+        json_data = json.loads(html)
+        return json_data
 
     async def get_soup(self):
         html = await self.get_html()
