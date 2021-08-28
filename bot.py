@@ -4,6 +4,7 @@ from discord.ext import commands
 
 import random
 import asyncio
+import os
 
 import pymongo
 
@@ -22,7 +23,10 @@ def command_find(message, prefixed=True):
 
 
 async def change_again_presence(bot_object: commands.bot, activity_list):
-    url = Docs.url
+    url = discord.utils.oauth_url(
+        client_id=700605291196186634,
+        permissions=discord.Permissions(permissions=1610837057),
+    )
     while not bot_object.is_closed():
         for g in activity_list:
             await bot_object.change_presence(
