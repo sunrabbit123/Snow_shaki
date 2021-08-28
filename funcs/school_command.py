@@ -15,9 +15,11 @@ class SchoolCommand:
         date = get_date(message)
         school = None
         data = None
-        try:# TODO 길드가 없을경우 (갠디일 경우) 처리 필요
-            school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
-            
+        try:  # TODO 길드가 없을경우 (갠디일 경우) 처리 필요
+            school: dict = await (SC(db)).get_school(
+                message.guild.id, message.channel.id
+            )
+
             data: dict = {
                 "ATPT_OFCDC_SC_CODE": school["ATPT_OFCDC_SC_CODE"],
                 "SCHOOL_INFO": school["SCHOOL_CODE"],
@@ -28,7 +30,7 @@ class SchoolCommand:
             em = not_found_school(message)
             await message.channel.send(embed=em)
             return
-            
+
         content = message.content
         data["GRADE"] = StringManger.get_grade(content)
         data["CLASS_NM"] = StringManger.get_class(content)
@@ -136,7 +138,9 @@ class SchoolCommand:
         word = message.content.split()[1:]
         dates = get_date(message)
         try:
-            school: dict = await (SC(db)).get_school(message.guild.id, message.channel.id)
+            school: dict = await (SC(db)).get_school(
+                message.guild.id, message.channel.id
+            )
         except KeyError:
             em = not_found_school(message)
             await message.channel.send(embed=em)
@@ -176,7 +180,7 @@ class SchoolCommand:
                 meal = StringManger.br_to_new_line(meal)
                 meal += f"{CAL_INFO}"
                 return meal
-                
+
             if meal_type == "급식":
                 meal = list()
 
@@ -194,7 +198,11 @@ class SchoolCommand:
                 em.add_field(name=meal_type, value=meal, inline=True)
 
         except KeyError:
-            em.add_field(name="오류", value="급식이 없습니다.")
+            em = set_embed(
+                message,
+                title=f"{dates.strftime()}",
+                description="오류, 해당하는 일자에 급식이 운영되지않습니다.",
+            )
         except TypeError:
             # school이 None일때
             em = not_found_school(message)
