@@ -121,17 +121,15 @@ class get_date:
                     else:
                         self.date = set_Fixed_Date(k + 1, "D", self.date)
 
-        for week, num in zip(Strings.week, range(0, 7)):
+        for week, num in zip(Strings.week, range(7, 14)):
             if f"{week}요일" in text:
-                self.date = set_Fixed_Date(
-                    int(self.date.day) - self.date.weekday() + num, "D", self.date
-                )
-        # TODO 토요일부터는 다음주의 급식을 출력
+                self.date = plus_minus_date(self.date, "D", num - self.date.weekday())
 
     def strftime(self):
-        week = ["월", "화", "수", "목", "금", "토", "일"]
         formatted = (
-            self.date.strftime("%Y년 %m월 %d일 ") + week[self.date.weekday()] + "요일"
+            self.date.strftime("%Y년 %m월 %d일 ")
+            + Strings.week[self.date.weekday()]
+            + "요일"
         )
         return formatted
 
