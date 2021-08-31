@@ -121,9 +121,10 @@ class get_date:
                     else:
                         self.date = set_Fixed_Date(k + 1, "D", self.date)
 
-        for week, num in zip(Strings.week, range(7, 14)):
+        for week, num in zip(Strings.week, range(0, 7)):
             if f"{week}요일" in text:
-                self.date = plus_minus_date(self.date, "D", num - self.date.weekday())
+                weekday = self.date.weekday()
+                self.date = plus_minus_date(self.date, "D", num - (weekday + 2 if weekday < 5 else weekday - 5))
 
     def strftime(self):
         formatted = (

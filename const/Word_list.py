@@ -92,7 +92,7 @@ class Strings:
     # endregion
 
     # region datetime
-    week = ["월", "화", "수", "목", "금", "토", "일"]
+    week = ["토", "일", "월", "화", "수", "목", "금"]
     dateCentury = ["하룻", "이튿", "사흗", "나흗", "닷샛", "엿샛", "이렛", "여드렛", "아흐렛"]
     dateCenturyAbbr = [
         "하루",  # 0
