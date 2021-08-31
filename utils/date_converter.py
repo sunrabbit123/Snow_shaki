@@ -123,13 +123,16 @@ class get_date:
 
         for week, num in zip(Strings.week, range(0, 7)):
             if f"{week}요일" in text:
-                weekday = self.date.weekday()
-                self.date = plus_minus_date(self.date, "D", num - (weekday + 2 if weekday < 5 else weekday - 5))
+                weekday: int = self.date.weekday()
+                self.date = plus_minus_date(
+                    self.date, "D", num - (weekday + 2 if weekday < 5 else weekday - 5)
+                )
 
     def strftime(self):
+        weekday: int = self.date.weekday()
         formatted = (
             self.date.strftime("%Y년 %m월 %d일 ")
-            + Strings.week[self.date.weekday()]
+            + Strings.week[(weekday + 2 if weekday < 5 else weekday - 5)]
             + "요일"
         )
         return formatted

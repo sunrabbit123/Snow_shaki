@@ -148,3 +148,6 @@ dmypy.json
 config.ini
 FETCH_HEAD
 git
+
+# local run bot
+runlocal.py
