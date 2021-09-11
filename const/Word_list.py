@@ -163,4 +163,4 @@ class CommandType:
     굴러 = "basic"
     링크 = "basic"
     emoji = "basic"
-    clean_message = "basic"
+    clean_messages = "basic"

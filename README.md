@@ -1,15 +1,8 @@
-# Snow_shaki
-It is shaki_bot in discord for GSM
-source_on_message consissts of discord on_message method
-source_ext consissts of discord discord bot method
+# [Snow_shaki](https://discord.com/oauth2/authorize?client_id=700605291196186634&scope=bot&permissions=1610837057)
+여러 유틸리티를 포함한 discord.py로 만들어진 디스코드 봇 입니다.
 
-this is Hosting repo
+## 기능들
+1. 학교 급식 파싱 및 시간표 검색
+2. 커스텀 명령어
+3. 랜덤선택, 주사위 etc.
 
-
-## Shaki has many functions.
-
-1. Web scraper
-2. meal parse
-3. Custom Commands
-4. random choice
-5. etc.
