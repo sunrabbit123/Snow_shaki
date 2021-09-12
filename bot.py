@@ -91,7 +91,10 @@ class ShakiBot(commands.Bot):
             command = messages[prefixed]
             # 명령어는 프리픽스가 있으면 두번째, 없다면 첫번째
         except IndexError:
+            if messages[0] == "." or messages[0] == "ㅅ":
+                return
             await message.channel.send("먀아,,,?")
+            return
             # 못알아먹으면 먀아?
 
         finded_command = None  # 선언
