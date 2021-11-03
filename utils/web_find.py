@@ -3,7 +3,6 @@ import aiohttp
 from bs4 import BeautifulSoup
 import random
 import json
-import asyncio
 
 
 class HTMLGetter:
@@ -14,7 +13,7 @@ class HTMLGetter:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
         }
-        async with aiohttp.ClientSession() as cs:
+        async with aiohttp.ClientSession(trust_env = True) as cs:
             html = await cs.get(self.url, headers=headers)
             return await html.text()
 
