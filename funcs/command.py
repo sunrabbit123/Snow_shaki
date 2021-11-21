@@ -1,7 +1,6 @@
 import discord
 
 import random
-import re
 import os
 
 from utils import set_embed, SearchWord
