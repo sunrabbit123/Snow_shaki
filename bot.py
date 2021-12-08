@@ -4,11 +4,10 @@ from discord.ext import commands
 
 import random
 import asyncio
-import os
 
 import pymongo
 
-from const import Strings, Docs, CommandType
+from const import Strings, CommandType
 from funcs import *
 from model import CustomCommandModel as CCM
 
