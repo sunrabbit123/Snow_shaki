@@ -13,7 +13,9 @@ class HTMLGetter:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
         }
-        async with aiohttp.ClientSession(trust_env = True, connector=aiohttp.TCPConnector(limit=64,verify_ssl=False)) as cs:
+        async with aiohttp.ClientSession(
+            trust_env=True, connector=aiohttp.TCPConnector(limit=64, verify_ssl=False)
+        ) as cs:
             html = await cs.get(self.url, headers=headers)
             return await html.text()
 
