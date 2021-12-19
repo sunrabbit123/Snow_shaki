@@ -31,9 +31,10 @@ class BasicCommand:
                 return
 
         deleted = await message.channel.purge(
-            limit=messages_to_delete + 2, check=lambda m: m.id != message.id
+            limit=messages_to_delete + 1, check=lambda m: m.id != message.id
         )
         await message.channel.send(f"{len(deleted)}개의 메세지를 지웠어요!")
+        await message.channel.purge(limit=5, check=lambda m: m.id == message.id)
 
     @staticmethod
     async def command_emoji(message: discord.Message):
