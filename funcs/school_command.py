@@ -15,7 +15,11 @@ class SchoolCommand:
         date = get_date(message)
         school = None
         data = None
-        try:  # TODO 길드가 없을경우 (갠디일 경우) 처리 필요
+        if(not message.guild.id):
+            await message.channel.send("갠디에서는 지원을 안합니다.")
+            return
+        try: 
+            
             school: dict = await (SC(db)).get_school(
                 message.guild.id, message.channel.id
             )
