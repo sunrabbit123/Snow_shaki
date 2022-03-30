@@ -151,3 +151,9 @@ git
 
 # local run bot
 runlocal.py
+
+# venv
+pyvenv.cfg
+Scripts
+include
+Lib
