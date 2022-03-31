@@ -5,7 +5,7 @@ import random
 import json
 
 
-class HTMLGetter:
+class Parser:
     def __init__(self, url):
         self.url = url
 
@@ -37,7 +37,7 @@ class SearchWord:
     @staticmethod
     async def get_dic(keyword: str):
 
-        soup = await HTMLGetter(
+        soup = await Parser(
             "https://terms.naver.com/search.nhn?query=%s&searchType=&dicType=&subject="
             % keyword
         ).get_soup()
@@ -52,7 +52,7 @@ class SearchWord:
 
     @staticmethod
     async def get_image(keyword: str):
-        soup = await HTMLGetter(
+        soup = await Parser(
             f"https://www.google.co.kr/search?q={keyword}&source=lnms&tbm=isch"
         ).get_soup()
         # https://www.google.co.kr/search?q=%EB%9D%BC%EC%9D%B4%EC%B8%84
@@ -82,7 +82,7 @@ class NeisAPI:
         ).get_url()
         # endregion
         print(url)
-        return await HTMLGetter(url).get_json()
+        return await Parser(url).get_json()
 
     @staticmethod
     async def search_school(school: str):
@@ -91,7 +91,7 @@ class NeisAPI:
             additions=[f"SCHUL_NM={school}"],
             auth_key=NeisAPI.auth_key,
         ).get_url()
-        return await HTMLGetter(url).get_json()
+        return await Parser(url).get_json()
 
     @staticmethod
     async def get_schedule(**school_info):
@@ -116,4 +116,4 @@ class NeisAPI:
             auth_key=NeisAPI.auth_key,
         ).get_url()
         print(url)
-        return await HTMLGetter(url).get_json()
+        return await Parser(url).get_json()
