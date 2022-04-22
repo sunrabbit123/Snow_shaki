@@ -188,11 +188,11 @@ class SchoolCommand:
             if meal_type == "급식":
                 meal = list()
 
-                for i in range(0, 3):
+                for meal_field in meal_list:
                     em.add_field(
-                        name=meal_list[i]["MMEAL_SC_NM"],
+                        name=meal_field["MMEAL_SC_NM"],
                         value=meal_filtering(
-                            meal_list[i]["DDISH_NM"], meal_list[i]["CAL_INFO"]
+                            meal_field["DDISH_NM"], meal_field["CAL_INFO"]
                         ),
                         inline=True,
                     )
@@ -213,10 +213,3 @@ class SchoolCommand:
         except IndexError:
             pass
         await message.channel.send(embed=em)
-
-        # try :
-        #     if meal_type == "급식":
-        #         meal_type_list = ["조식", "중식", "석식"]
-        #         for i in range(0,3):
-        #             meal = meal_list
-        #             em.add_field(name = meal_type_list[i], value = meal[i])
