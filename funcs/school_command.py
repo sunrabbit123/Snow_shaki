@@ -180,7 +180,7 @@ class SchoolCommand:
             )
 
             def meal_filtering(meal: str, CAL_INFO: str):
-                meal = StringManger.filter_without_dot_and_korean(meal)
+                meal = StringManger.filter_with_unused_data(meal)
                 meal = StringManger.br_to_new_line(meal)
                 meal += f"{CAL_INFO}"
                 return meal
