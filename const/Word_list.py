@@ -18,7 +18,6 @@ class Strings:
         "스노우스키",
         "샤키",
         "수진",
-        ".",
         "ㅅ",
     ]
     # endregion
