@@ -8,7 +8,9 @@ class StringManger:
 
     @staticmethod
     def filter_with_unused_data(string: str) -> str:
-        return re.sub(pattern=r"(\d+\.)+|\([가-힣]+\)|[^가-힣0-9|<br/>|\&]", repl="", string=string)
+        return re.sub(
+            pattern=r"(\d+\.)+|\([가-힣]+\)|[^가-힣0-9|<br/>|\&]", repl="", string=string
+        )
 
     @staticmethod
     def get_grade(string: str) -> str:

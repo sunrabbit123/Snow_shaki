@@ -7,13 +7,7 @@ from const import Strings
 
 
 def pattern_Comparison(pattern, text) -> bool:
-    comparison = re.search(pattern, text)
-
-    if comparison:
-        return True
-    else:
-        return False
-
+    return not not re.search(pattern, text)
 
 def plus_minus_date(date: datetime.datetime, YMWD, value: int) -> datetime.datetime:
     if YMWD == "Y":
@@ -46,11 +40,11 @@ def plus_minus_date(date: datetime.datetime, YMWD, value: int) -> datetime.datet
 def set_date(
     text: str, YMWD: str, date: datetime.datetime, val: int = 1
 ) -> datetime.datetime:
-    if pattern_Comparison(re.compile(r"(전|저|지)"), text):
-        date = plus_minus_date(date, YMWD, val * -1)
-    else:
-        date = plus_minus_date(date, YMWD, val)
-    return date
+    return plus_minus_date(
+        date,
+        YMWD,
+        val * (1 if pattern_Comparison(re.compile(r"(전|저|지)"), text) else -1),
+    )
 
 
 def set_Fixed_Date(value: int, YMWD: str, date: datetime.datetime) -> datetime.datetime:
