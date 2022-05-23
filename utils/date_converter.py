@@ -9,38 +9,22 @@ from const import Strings
 def pattern_Comparison(pattern, text) -> bool:
     return not not re.search(pattern, text)
 
-def plus_minus_date(date: datetime.datetime, YMWD, value: int) -> datetime.datetime:
-    if YMWD == "Y":
-        if value > 0:
-            date += datetime.timedelta(days=365 * value)
-        else:
-            value *= -1
-            date -= datetime.timedelta(days=365 * value)
-    elif YMWD == "M":
-        if value > 0:
-            date += datetime.timedelta(month=value)
-        else:
-            value *= -1
-            date -= datetime.timedelta(month=value)
-    elif YMWD == "W":
-        if value > 0:
-            date += datetime.timedelta(weeks=value)
-        else:
-            value *= -1
-            date -= datetime.timedelta(weeks=value)
-    else:
-        if value > 0:
-            date += datetime.timedelta(days=value)
-        else:
-            value *= -1
-            date -= datetime.timedelta(days=value)
-    return date
+def calc_date(date: datetime.datetime, YMWD, value: int) -> datetime.datetime:
+    get_absolutely = lambda v : v if v > 0 else -v
 
+    calc_funcs = {
+        "Y" : lambda v : datetime.timedelta(days=365 * v),
+        "M" : lambda v : datetime.timedelta(month=v),
+        "W" : lambda v : datetime.timedelta(weeks=v),
+        "D" : lambda v : datetime.timedelta(days=v),
+    }
+    calculated = calc_funcs[YMWD](get_absolutely(value))
+    return date + calculated if value > 0 else date - calculated
 
 def set_date(
     text: str, YMWD: str, date: datetime.datetime, val: int = 1
 ) -> datetime.datetime:
-    return plus_minus_date(
+    return calc_date(
         date,
         YMWD,
         val * (1 if pattern_Comparison(re.compile(r"(전|저|지)"), text) else -1),
@@ -118,7 +102,7 @@ class get_date:
         for week, num in zip(Strings.week, range(0, 7)):
             if f"{week}요일" in text:
                 weekday: int = self.date.weekday()
-                self.date = plus_minus_date(
+                self.date = calc_date(
                     self.date, "D", num - (weekday + 2 if weekday < 5 else weekday - 5)
                 )
 
