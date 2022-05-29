@@ -9,17 +9,19 @@ from const import Strings
 def pattern_Comparison(pattern, text) -> bool:
     return not not re.search(pattern, text)
 
+
 def calc_date(date: datetime.datetime, YMWD, value: int) -> datetime.datetime:
-    get_absolutely = lambda v : v if v > 0 else -v
+    get_absolutely = lambda v: v if v > 0 else -v
 
     calc_funcs = {
-        "Y" : lambda v : datetime.timedelta(days=365 * v),
-        "M" : lambda v : datetime.timedelta(month=v),
-        "W" : lambda v : datetime.timedelta(weeks=v),
-        "D" : lambda v : datetime.timedelta(days=v),
+        "Y": lambda v: datetime.timedelta(days=365 * v),
+        "M": lambda v: datetime.timedelta(month=v),
+        "W": lambda v: datetime.timedelta(weeks=v),
+        "D": lambda v: datetime.timedelta(days=v),
     }
     calculated = calc_funcs[YMWD](get_absolutely(value))
     return date + calculated if value > 0 else date - calculated
+
 
 def set_date(
     text: str, YMWD: str, date: datetime.datetime, val: int = 1
