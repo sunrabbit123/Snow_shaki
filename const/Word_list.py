@@ -35,6 +35,7 @@ class Strings:
         "9️⃣": 8,
         "🔟": 9,
     }
+    thumbs = lambda b: "👍" if b else "👎"
     meal_dict = {"조식": 0, "중식": 1, "석식": 2}
     school_type: dict = {
         "초등학교": "elsTimetable",
@@ -65,6 +66,7 @@ class Strings:
         "링크": ["url", "Url", "URL", "링크", "주소", "초대"],
         "emoji": ["emoji", "이모지", "임티", "이모티콘", "표정"],
         "clean_messages": ["지워", "치워", "삭제", "없애", "delete", "클린", "clean"],
+        "vote": ["투표"],
         # endregion
         # region custom command
         "배워": ["배워", "익혀", "study"],
@@ -163,3 +165,4 @@ class CommandType:
     링크 = "basic"
     emoji = "basic"
     clean_messages = "basic"
+    vote = "basic"

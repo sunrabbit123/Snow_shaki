@@ -1,11 +1,17 @@
 import discord
 
 
-def set_embed(ext: discord.Message, title: str = None, description: str = None):
+def set_embed(
+    ext: discord.Message,
+    title: str = None,
+    description: str = None,
+    has_footer: bool = True,
+):
     embed = discord.Embed(
         colour=0x7ACDF4, title=title, description=description, timestamp=ext.created_at
     )
-    embed.set_footer(text=ext.author.name, icon_url=ext.author.avatar_url)
+    if has_footer:
+        embed.set_footer(text=ext.author.name, icon_url=ext.author.avatar_url)
     return embed
 
 

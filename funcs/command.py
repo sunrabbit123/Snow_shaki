@@ -2,6 +2,7 @@ import discord
 
 import random
 import os
+import re
 
 from utils import set_embed, SearchWord
 from const import Docs, Strings
@@ -83,3 +84,40 @@ class BasicCommand:
             )
         )
         await message.channel.send("여기 있어요,,,")
+
+    @staticmethod
+    async def command_vote(message: discord.Message):
+        removed_prefix_message = message.content.split()[2:]
+
+        if len(removed_prefix_message) == 0:
+            em: discord.Embed = set_embed(message, title="투표 도움말", has_footer=False)
+            em.add_field(name="찬반 투표", value='샤키야 투표 "제목"', inline=False)
+            em.add_field(
+                name="항목 투표", value='샤키야 투표 "제목" "내용1" "내용2" ...', inline=False
+            )
+            em.set_footer(text='투표 생성 시 각 항목들은 " "(따옴표)를 통해 구별해야합니다.')
+            await message.channel.send(embed=em)
+            return
+
+        vote_item_list = re.findall(r'"(.*?)"', " ".join(removed_prefix_message))
+        item_length = len(vote_item_list)
+
+        if item_length == 1:
+            voted = await message.channel.send(f"**{vote_item_list[0]}**")
+            await voted.add_reaction(Strings.thumbs(True))
+            await voted.add_reaction(Strings.thumbs(False))
+            return
+
+        if item_length != 1:
+            description = "\n".join(
+                [
+                    f"{Strings.number_emoji[idx]}{vote_item_list[idx + 1]}"
+                    for idx in range(item_length - 1)
+                ]
+            )
+            em = set_embed(message, title=vote_item_list[0], description=description)
+            voted = await message.channel.send(embed=em)
+
+            for i in range(item_length - 1):
+                await voted.add_reaction(Strings.number_emoji[i])
+            return
