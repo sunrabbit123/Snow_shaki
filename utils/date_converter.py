@@ -20,7 +20,7 @@ def calc_date(date: datetime.datetime, YMWD, value: int) -> datetime.datetime:
         "D": lambda v: datetime.timedelta(days=v),
     }
     calculated = calc_funcs[YMWD](get_absolutely(value))
-    return date - calculated if value > 0 else date + calculated
+    return date + calculated if value > 0 else date - calculated
 
 
 def set_date(
@@ -29,7 +29,7 @@ def set_date(
     return calc_date(
         date,
         YMWD,
-        val * (1 if pattern_Comparison(re.compile(r"(전|저|지)"), text) else -1),
+        val * (-1 if pattern_Comparison(re.compile(r"(전|저|지)"), text) else 1),
     )
 
 
