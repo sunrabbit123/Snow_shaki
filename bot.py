@@ -80,14 +80,13 @@ class ShakiBot(commands.Bot):
         messages = message.content.lower().split()
 
         try:
-            prefixed = 1 if (messages[0] in self.prefix) else 0
-            # 문장 맨 처음이 프리픽스가 들어가있다면 1, 아니라면 0
+            prefixed = messages[0] in self.prefix
         except IndexError:
             return
         # 사진이면 리턴
 
         try:
-            command = messages[prefixed]
+            command = messages[1 if prefixed else 0]
             # 명령어는 프리픽스가 있으면 두번째, 없다면 첫번째
         except IndexError:
             if messages[0] == "." or messages[0] == "ㅅ":
