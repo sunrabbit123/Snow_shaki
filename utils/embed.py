@@ -10,11 +10,8 @@ def set_embed(
     embed = discord.Embed(
         colour=0x7ACDF4, title=title, description=description, timestamp=ext.created_at
     )
-    print(dir(ext.author))
-    print(type(ext), ext)
-    print(type(ext.author))
     if has_footer:
-        embed.set_footer(text=ext.author.name, icon_url=ext.author.avatar_url)
+        embed.set_footer(text=ext.author.name, icon_url=ext.author.display_avatar.get_url())
     return embed
 
 
