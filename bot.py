@@ -59,7 +59,7 @@ class ShakiBot(commands.Bot):
         self.prefixed = 0
         self.admin = admin
         self.db = db
-        super().__init__(command_prefix=None, help_command=None)
+        super().__init__(command_prefix=None, help_command=None, intents=discord.Intents.default())
 
     async def on_ready(self):
 
