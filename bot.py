@@ -59,7 +59,7 @@ class ShakiBot(commands.Bot):
         self.prefixed = 0
         self.admin = admin
         self.db = db
-        super().__init__(command_prefix=None, help_command=None, intents=discord.Intents.all())
+        super().__init__(command_prefix=None, help_command=None)
 
     async def on_ready(self):
 
@@ -69,7 +69,7 @@ class ShakiBot(commands.Bot):
         activity_list = Strings.activity_list
         activity_list.append(f"{len(guild_list)}개의 서버에 참가중입니다!")
         await self.wait_until_ready()
-        # await change_again_presence(self, activity_list)
+        await change_again_presence(self, activity_list)
 
     async def on_message(self, message: discord.Message):
         await self.wait_until_ready()  # 준비가 될때까지 대기
