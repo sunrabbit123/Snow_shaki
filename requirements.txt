@@ -2,7 +2,7 @@ aiohttp>=3.7.4
 async-timeout==3.0.1
 beautifulsoup4==4.9.3
 bs4==0.0.1
-discord==1.0.1
+discord==1.7.3
 py-cord==1.7.3
 dnspython==1.16.0
 gssapi==1.6.10
