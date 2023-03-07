@@ -56,7 +56,7 @@ class BasicCommand:
         searcher = SearchWord()
         i = 0
         async def get_image():
-            i++
+            i += 1
             print(f"{i}번째 이미지 검색 중")
             return await searcher.get_image(findg)
         em = None
