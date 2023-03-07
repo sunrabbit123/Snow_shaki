@@ -69,7 +69,7 @@ class BasicCommand:
                 await message.channel.send(embed=em)
                 return
             img = await get_image()     
-       await message.channel.send("이미지 불러오기를 실패했습니다")
+        await message.channel.send("이미지 불러오기를 실패했습니다")
             
 
     @staticmethod
