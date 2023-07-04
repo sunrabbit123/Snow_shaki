@@ -8,8 +8,11 @@ class StringManger:
 
     @staticmethod
     def filter_with_unused_data(string: str) -> str:
+        round1 = re.sub(
+                pattern=r"\((\d\.?)+\)", repl="", string=string
+            )
         return re.sub(
-            pattern=r"(\d+\.)+|\([가-힣]+\)|[^가-힣0-9|<br/>|\&]", repl="", string=string
+            pattern=r"[^가-힣0-9|<br/>|\&|()]", repl="", string=round1
         )
 
     @staticmethod

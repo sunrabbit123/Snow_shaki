@@ -182,8 +182,7 @@ class SchoolCommand:
             def meal_filtering(meal: str, CAL_INFO: str):
                 meal = StringManger.filter_with_unused_data(meal)
                 meal = StringManger.br_to_new_line(meal)
-                meal += f"{CAL_INFO}"
-                return meal
+                return f"{meal}{CAL_INFO}"
 
             if meal_type == "급식":
                 meal = list()
