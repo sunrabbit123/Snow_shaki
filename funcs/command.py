@@ -53,15 +53,22 @@ class BasicCommand:
     @staticmethod
     async def command_구글검색(message: discord.Message):
         findg = " ".join(message.content.split()[2:])
-        image = await SearchWord().get_image(findg)
+        searcher = SearchWord()
+        async def get_image(i):
+            print(f"{i}번째 이미지 검색 중")
+            return await searcher.get_image(findg)
         em = None
-        if image is None:
-            await message.channel.send("이미지 불러오기를 실패했습니다")
-            return
-        else:
-            em = set_embed(message, title=f"{findg}의 이미지 검색 결과")
-            em.set_image(url=image)
-        await message.channel.send(embed=em)
+        img = await get_image(1)
+        
+        for i in range(10):
+            if img is not None and img.startswith("http"):
+                em = set_embed(message, title=f"{findg}의 이미지 검색 결과")
+                em.set_image(url=img)
+                await message.channel.send(embed=em)
+                return
+            img = await get_image(i + 2)     
+        await message.channel.send("이미지 불러오기를 실패했습니다")
+            
 
     @staticmethod
     async def command_사전검색(message: discord.Message):

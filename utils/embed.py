@@ -11,7 +11,7 @@ def set_embed(
         colour=0x7ACDF4, title=title, description=description, timestamp=ext.created_at
     )
     if has_footer:
-        embed.set_footer(text=ext.author.name, icon_url=ext.author.avatar.url)
+        embed.set_footer(text=ext.author.name, icon_url=ext.author.display_avatar.url)
     return embed
 
 

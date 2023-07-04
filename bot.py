@@ -63,8 +63,7 @@ class ShakiBot(commands.Bot):
 
     async def on_ready(self):
         guild_list = [guild.name for guild in self.guilds]
-        print(guild_list)
-        print("야생의 샤키가 나타났다!")
+        print(f"List of linked {len(guild_list)} servers : {guild_list}")
         activity_list = Strings.activity_list
         activity_list.append(f"{len(guild_list)}개의 서버에 참가중입니다!")
         await self.wait_until_ready()
