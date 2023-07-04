@@ -59,10 +59,9 @@ class ShakiBot(commands.Bot):
         self.prefixed = 0
         self.admin = admin
         self.db = db
-        super().__init__(command_prefix=None, help_command=None)
+        super().__init__(command_prefix=None, help_command=None, intents=discord.Intents.all())
 
     async def on_ready(self):
-
         guild_list = [guild.name for guild in self.guilds]
         print(guild_list)
         print("야생의 샤키가 나타났다!")
@@ -78,7 +77,6 @@ class ShakiBot(commands.Bot):
             # 봇이 아닐때만 작동
         # 소문자로 바꾸고, 공백기준으로 나눠줌
         messages = message.content.lower().split()
-
         try:
             prefixed = messages[0] in self.prefix
         except IndexError:
