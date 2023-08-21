@@ -6,3 +6,13 @@
 2. 커스텀 명령어
 3. 랜덤선택, 주사위 etc.
 
+## Start
+
+```sh
+> pip3 install -r requirements.txt
+
+-- writing config.ini
+
+> pip3 run.py
+
+```
