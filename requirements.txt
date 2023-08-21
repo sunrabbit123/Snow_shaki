@@ -25,4 +25,4 @@ srv==1.0.0
 typing_extensions==4.7.1
 Werkzeug==2.2.3
 yarl==1.5.1
-zstd==1.4.5.1
+zstd==1.5.4.0
