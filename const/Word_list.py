@@ -147,6 +147,7 @@ class Strings:
 
     roll = random.choice(["데구르르 꽝", "꽝 데구르르", "데구르르 뎅강", "ㄷㄱㄹㄹ ㄷㄱ", "야랄,,, 너나 구르세요"])
     # endregion
+    # endregion
 
 
 class CommandType:

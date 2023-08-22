@@ -13,12 +13,43 @@ from model import CustomCommandModel as CCM
 
 # endregion
 
+
 # region util
-def command_find(message, prefixed=True):
+def command_find(message, prefixed=True) -> any | None:
     diction = getattr(Strings, "command_prefixes" if prefixed else "commands")
     for command, string in diction.items():
         if message in string:
             return command
+
+
+def get_command(messages: [str], prefixed: bool) -> any | None:
+    if len(messages) < 2:
+        return None
+
+    command = command_find(messages[1 if prefixed else 0], prefixed=prefixed)
+    if command:
+        return command
+
+    if not prefixed:
+        return None
+
+    try:
+        return command_find(messages[2], prefixed=True) or command_find(
+            messages[-1], prefixed=True
+        )
+    except IndexError:
+        return None
+        # messages[2]를 조회함으로써 생기는 에러
+
+
+def get_method(command: str) -> any | None:
+    try:
+        type_of_command_flag = getattr(CommandType, command)
+        extension = command_type[type_of_command_flag]
+        func = getattr(extension, f"command_{command}")
+        return [type_of_command_flag, func]
+    except (UnicodeEncodeError, AttributeError):
+        pass  # 유니코드 에러는 스킵, 해당 클래스에 해당 함수가 없어도 스킵
 
 
 async def change_again_presence(bot_object: commands.bot, activity_list):
@@ -59,7 +90,9 @@ class ShakiBot(commands.Bot):
         self.prefixed = 0
         self.admin = admin
         self.db = db
-        super().__init__(command_prefix=None, help_command=None, intents=discord.Intents.all())
+        super().__init__(
+            command_prefix=None, help_command=None, intents=discord.Intents.all()
+        )
 
     async def on_ready(self):
         guild_list = [guild.name for guild in self.guilds]
@@ -76,57 +109,48 @@ class ShakiBot(commands.Bot):
             # 봇이 아닐때만 작동
         # 소문자로 바꾸고, 공백기준으로 나눠줌
         messages = message.content.lower().split()
-        try:
-            prefixed = messages[0] in self.prefix
-        except IndexError:
-            return
-        # 사진이면 리턴
 
-        try:
-            command = messages[1 if prefixed else 0]
-            # 명령어는 프리픽스가 있으면 두번째, 없다면 첫번째
-        except IndexError:
-            if messages[0] == "." or messages[0] == "ㅅ":
-                return
-            await message.channel.send("먀아,,,?")
-            return
-            # 못알아먹으면 먀아?
+        message_length = len(messages)
 
-        finded_command = None  # 선언
-        try:
-            finded_command = command_find(command, prefixed=prefixed) or (
-                command_find(messages[2], prefixed=True)
-                or command_find(messages[-1], prefixed=True)
-                if prefixed
-                else None
-            )
-        except IndexError:
-            pass  # messages[2]를 조회함으로써 생기는 에러
+        if message_length is 0:
+            return
+
+        if message_length is 1:
+            if messages[0] != "." and messages[0] != "ㅅ":
+                await message.channel.send("먀아,,,?")
+            return
+
+        prefixed = messages[0] in self.prefix
+
+        command = get_command(messages, prefixed)
         # 커맨드 조회
-        func = None  # 변수선언
-        if finded_command:
-            try:
-                type_of_command_flag = getattr(CommandType, finded_command)
-                extension = command_type[type_of_command_flag]
-                func = getattr(extension, f"command_{finded_command}")
+        if command:
+            res = get_method()
 
-                print(
-                    "%s : %s : %s"
-                    % (message.author, message.channel.name, message.content)
-                )
-            except (UnicodeEncodeError, AttributeError):
-                pass  # 유니코드 에러는 스킵, 해당 클래스에 해당 함수가 없어도 스킵
+            command_flag = res[0]
+            func = res[1]
 
-            if func:
-                if type_of_command_flag == "basic":  # 나머지는 db 필요
-                    await func(message)
-                elif finded_command == "regist":
-                    await func(message, self.db, self)
-                else:
-                    await func(message, self.db)
-        elif prefixed:
-            try:
-                value_command = random.choice(CCM(self.db).command_select(message))
-                await message.channel.send(value_command["value-command"])
-            except IndexError:
-                pass  # 값이 없을 경우 choice가 불가능하기에 IndexError이 나타남
+            if func is None:
+                return
+            print(
+                "%s : %s : %s" % (message.author, message.channel.name, message.content)
+            )
+            if command_flag == "basic":  # 나머지는 db 필요
+                await func(message)
+                return
+
+            if command != "regist":
+                await func(message, self.db)
+                return
+
+            await func(message, self.db, self)
+            return
+
+        if not prefixed:
+            return
+
+        try:
+            value_command = random.choice(CCM(self.db).command_select(message))
+            await message.channel.send(value_command["value-command"])
+        except IndexError:
+            pass  # 값이 없을 경우 choice가 불가능하기에 IndexError이 나타남
