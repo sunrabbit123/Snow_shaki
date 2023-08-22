@@ -1,4 +1,5 @@
 # region import
+from typing import Optional
 import discord
 from discord.ext import commands
 
@@ -15,14 +16,14 @@ from model import CustomCommandModel as CCM
 
 
 # region util
-def command_find(message, prefixed=True) -> any | None:
+def command_find(message, prefixed=True) -> Optional[any]:
     diction = getattr(Strings, "command_prefixes" if prefixed else "commands")
     for command, string in diction.items():
         if message in string:
             return command
 
 
-def get_command(messages: [str], prefixed: bool) -> any | None:
+def get_command(messages: [str], prefixed: bool) -> Optional[any]:
     if len(messages) < 2:
         return None
 
@@ -42,7 +43,7 @@ def get_command(messages: [str], prefixed: bool) -> any | None:
         # messages[2]를 조회함으로써 생기는 에러
 
 
-def get_method(command: str) -> any | None:
+def get_method(command: str) -> Optional[any]:
     try:
         type_of_command_flag = getattr(CommandType, command)
         extension = command_type[type_of_command_flag]
@@ -112,10 +113,10 @@ class ShakiBot(commands.Bot):
 
         message_length = len(messages)
 
-        if message_length is 0:
+        if message_length == 0:
             return
 
-        if message_length is 1:
+        if message_length == 1:
             if messages[0] != "." and messages[0] != "ㅅ":
                 await message.channel.send("먀아,,,?")
             return
