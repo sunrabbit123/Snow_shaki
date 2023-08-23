@@ -116,17 +116,17 @@ class ShakiBot(commands.Bot):
         if message_length == 0:
             return
 
+        prefixed = messages[0] in self.prefix
+
         if message_length == 1:
-            if messages[0] != "." and messages[0] != "ㅅ":
+            if messages[0] != "." and messages[0] != "ㅅ" and prefixed:
                 await message.channel.send("먀아,,,?")
             return
-
-        prefixed = messages[0] in self.prefix
 
         command = get_command(messages, prefixed)
         # 커맨드 조회
         if command:
-            res = get_method()
+            res = get_method(command)
 
             command_flag = res[0]
             func = res[1]
