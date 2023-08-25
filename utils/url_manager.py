@@ -15,10 +15,12 @@ class url_manager:
         except TypeError:
             addition_str = ""
 
-        self.url = (
-            f"https://open.neis.go.kr/hub/{type}?Type=json&{option}"
-            + ("" if auth_key is None else "&KEY=" + auth_key)
-            + f"{addition_str}"
+        self.url = "".join(
+            [
+                f"https://open.neis.go.kr/hub/{type}?Type=json&{option}",
+                "" if auth_key is None else f"&KEY={auth_key}",
+                addition_str,
+            ]
         )
 
     def get_url(self):
